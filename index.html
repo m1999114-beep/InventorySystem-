@@ -1167,10 +1167,6 @@
                             <span class="text-gray-400 font-semibold">已載入品項</span>
                             <span class="text-white font-extrabold" id="settingsItemCount">-</span>
                         </div>
-                        <div class="flex justify-between items-center py-2 border-t border-white/5 pt-2">
-                            <span class="text-gray-400 font-semibold">使用模式</span>
-                            <span class="text-white font-extrabold" id="appMode">網頁版</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1503,16 +1499,9 @@
         }
         
         function setOperatorGlobal(operator) {
-            state.currentOperator = operator;
-            
-            // 更新 Header 顯示
-            var headerOp = document.getElementById('headerOperator');
-            if (headerOp) {
-                headerOp.textContent = operator;
-                headerOp.classList.add('number-update');
-                setTimeout(function() { headerOp.classList.remove('number-update'); }, 400);
-            }
-            
+            // 使用統一的 setOperator 函數來保持一致性
+            setOperator(operator);
+            // 重新渲染設定頁面的選擇器以確保樣式正確
             renderOperatorSelector();
             toast('已切換操作人員：' + operator, 'success');
         }
@@ -1789,15 +1778,44 @@
             
             // 更新 Header 顯示
             var headerOp = document.getElementById('headerOperator');
-            if (headerOp) headerOp.textContent = operator;
+            if (headerOp) {
+                headerOp.textContent = operator;
+                headerOp.classList.add('number-update');
+                setTimeout(function() { headerOp.classList.remove('number-update'); }, 400);
+            }
             
-            // 更新按鈕樣式
+            // 更新 Bottom Sheet 中的按鈕樣式
             var buttons = document.querySelectorAll('.operator-btn');
             buttons.forEach(function(btn) {
                 if (btn.getAttribute('data-operator') === operator) {
                     btn.className = 'operator-btn btn-interactive px-5 py-3 rounded-2xl text-sm font-bold border-2 transition-all bg-gradient-to-r from-purple-600 to-purple-500 text-white border-purple-400/50 shadow-lg shadow-purple-500/30';
+                    btn.setAttribute('aria-pressed', 'true');
                 } else {
                     btn.className = 'operator-btn btn-interactive px-5 py-3 rounded-2xl text-sm font-bold border-2 transition-all bg-white/5 text-gray-300 border-white/10';
+                    btn.setAttribute('aria-pressed', 'false');
+                }
+            });
+            
+            // 更新設定頁面的按鈕樣式
+            var selectButtons = document.querySelectorAll('.operator-select-btn');
+            selectButtons.forEach(function(btn) {
+                var btnOperator = btn.getAttribute('data-operator');
+                if (btnOperator === operator) {
+                    btn.className = 'btn-interactive operator-select-btn flex items-center justify-between p-5 rounded-2xl border-2 transition-all bg-gradient-to-r from-purple-600 to-purple-500 border-purple-400/50 text-white shadow-lg shadow-purple-500/30';
+                    // 確保有 ✓ 標記
+                    if (!btn.querySelector('span:last-child') || btn.querySelector('span:last-child').textContent !== '✓') {
+                        var checkMark = document.createElement('span');
+                        checkMark.className = 'text-2xl font-bold';
+                        checkMark.textContent = '✓';
+                        btn.appendChild(checkMark);
+                    }
+                } else {
+                    btn.className = 'btn-interactive operator-select-btn flex items-center justify-between p-5 rounded-2xl border-2 transition-all bg-white/5 border-white/10 text-gray-300';
+                    // 移除 ✓ 標記
+                    var checkMark = btn.querySelector('span:last-child');
+                    if (checkMark && checkMark.textContent === '✓') {
+                        checkMark.remove();
+                    }
                 }
             });
             
@@ -2100,6 +2118,7 @@
         window.adjustQty = adjustQty;
         window.setOperator = setOperator;
         window.setOperatorGlobal = setOperatorGlobal;
+        window.installPWA = installPWA;
 
         // ===== PWA Service Worker 註冊 =====
         if ('serviceWorker' in navigator) {
