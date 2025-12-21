@@ -1443,8 +1443,11 @@
             // 如果切換到設定頁，渲染操作人員選擇器和 PWA 安裝選項
             if (page === 'settings') {
                 renderOperatorSelector();
-                updatePWAInstallSection();
-                updateAppMode();
+                // 延遲一下確保 DOM 已渲染
+                setTimeout(function() {
+                    updatePWAInstallSection();
+                    updateAppMode();
+                }, 100);
             }
             
             // 關閉 Bottom Sheet
@@ -2145,16 +2148,19 @@
                 return;
             }
             
-            // 如果支持安裝，顯示安裝選項
-            if (deferredPrompt) {
+            // 檢查是否為移動設備
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            var isAndroid = /Android/i.test(navigator.userAgent);
+            
+            // 移動設備都顯示安裝選項
+            if (isMobile) {
+                section.classList.remove('hidden');
+            } else if (deferredPrompt) {
+                // 桌面端如果有安裝提示，也顯示
                 section.classList.remove('hidden');
             } else {
-                // 檢查是否為 iOS
-                if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-                    section.classList.remove('hidden');
-                } else {
-                    section.classList.add('hidden');
-                }
+                section.classList.add('hidden');
             }
         }
         
@@ -2174,33 +2180,66 @@
         
         // 安裝功能（可選，在設定頁提供）
         function installPWA() {
-            if (!deferredPrompt) {
-                // 檢查是否已經安裝
-                if (window.matchMedia('(display-mode: standalone)').matches) {
-                    toast('✅ 應用已安裝', 'success');
-                    return;
-                }
-                
-                // 檢查是否為 iOS
-                if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-                    toast('📱 iOS 安裝步驟：\n1. 點擊 Safari 分享按鈕\n2. 選擇「加入主畫面」\n3. 點擊「加入」', 'info');
-                } else {
-                    toast('您的瀏覽器可能不支持 PWA 安裝', 'info');
-                }
+            // 檢查是否已經安裝
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                toast('✅ 應用已安裝', 'success');
                 return;
             }
             
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then(function(choiceResult) {
-                if (choiceResult.outcome === 'accepted') {
-                    toast('✅ 安裝成功！現在可以從主屏幕啟動', 'success');
-                    updatePWAInstallSection();
-                    updateAppMode();
-                } else {
-                    toast('已取消安裝，您仍可正常使用網頁版', 'info');
-                }
-                deferredPrompt = null;
-            });
+            var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            var isAndroid = /Android/i.test(navigator.userAgent);
+            var isChrome = /Chrome/i.test(navigator.userAgent);
+            
+            // iOS 特殊處理
+            if (isIOS) {
+                var instructions = '📱 iOS 安裝步驟：\n\n' +
+                    '1. 點擊瀏覽器底部的「分享」按鈕（方框+箭頭圖標）\n' +
+                    '2. 向下滾動，找到「加入主畫面」\n' +
+                    '3. 點擊「加入主畫面」\n' +
+                    '4. 點擊右上角「加入」\n\n' +
+                    '完成後，應用圖標會出現在主屏幕上！';
+                toast(instructions, 'info');
+                return;
+            }
+            
+            // Android Chrome 使用標準 PWA 安裝
+            if (isAndroid && isChrome && deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(function(choiceResult) {
+                    if (choiceResult.outcome === 'accepted') {
+                        toast('✅ 安裝成功！現在可以從主屏幕啟動', 'success');
+                        updatePWAInstallSection();
+                        updateAppMode();
+                    } else {
+                        toast('已取消安裝，您仍可正常使用網頁版', 'info');
+                    }
+                    deferredPrompt = null;
+                });
+                return;
+            }
+            
+            // Android 其他瀏覽器
+            if (isAndroid) {
+                toast('📱 Android 安裝：\n\n請使用 Chrome 瀏覽器，或點擊瀏覽器菜單中的「添加到主屏幕」選項', 'info');
+                return;
+            }
+            
+            // 桌面端
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(function(choiceResult) {
+                    if (choiceResult.outcome === 'accepted') {
+                        toast('✅ 安裝成功！', 'success');
+                        updatePWAInstallSection();
+                        updateAppMode();
+                    } else {
+                        toast('已取消安裝', 'info');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                toast('您的瀏覽器可能不支持 PWA 安裝，或需要手動添加', 'info');
+            }
         }
         
         // 監聽安裝完成事件
