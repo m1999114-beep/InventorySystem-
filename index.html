@@ -2244,17 +2244,23 @@
         // ===== PWA Service Worker 註冊 =====
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('./service-worker.js')
+                navigator.serviceWorker.register('./service-worker.js?v=19.1')
                     .then(function(registration) {
                         console.log('Service Worker 註冊成功:', registration.scope);
+                        
+                        // 強制更新：立即檢查並更新
+                        registration.update();
                         
                         // 檢查更新
                         registration.addEventListener('updatefound', function() {
                             var newWorker = registration.installing;
                             newWorker.addEventListener('statechange', function() {
                                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    // 有新版本可用
-                                    toast('有新版本可用，請重新載入頁面', 'info');
+                                    // 有新版本可用，強制重新載入
+                                    if (confirm('發現新版本，是否立即更新？')) {
+                                        newWorker.postMessage({ action: 'skipWaiting' });
+                                        window.location.reload();
+                                    }
                                 }
                             });
                         });
