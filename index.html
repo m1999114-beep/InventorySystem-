@@ -194,24 +194,7 @@
             overflow: hidden;
         }
         
-        .stock-bar-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(255, 255, 255, 0.3) 50%, 
-                transparent 100%);
-            animation: shimmer 2s infinite;
-        }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
+        /* 移除 shimmer 動畫，簡化特效 */
         
         .stock-green { 
             background: linear-gradient(90deg, #10b981, #34d399); 
@@ -239,11 +222,10 @@
             to { transform: rotate(360deg); } 
         }
         
-        /* 按鈕微交互 - 極致改進 + 可訪問性 */
+        /* 按鈕微交互 - 實用為主，簡化特效 */
         .btn-interactive {
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.2s ease;
             position: relative;
-            overflow: hidden;
             cursor: pointer;
             /* 確保觸摸目標 */
             min-width: 44px;
@@ -263,99 +245,35 @@
             pointer-events: none;
         }
         
-        .btn-interactive::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 70%);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-                        height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                        opacity 0.3s;
-            opacity: 0;
-        }
-        
-        .btn-interactive:active::before {
-            width: 400px;
-            height: 400px;
-            opacity: 1;
-        }
-        
         .btn-interactive:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            opacity: 0.9;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
         
         .btn-interactive:active { 
-            transform: scale(0.94) translateY(0); 
-            transition: all 0.15s;
+            transform: scale(0.97); 
+            transition: all 0.1s;
         }
         
-        /* 分類按鈕 - 極致設計 */
+        /* 分類按鈕 - 實用為主，簡化特效 */
         .cat-chip {
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.2s ease;
             white-space: nowrap;
             position: relative;
-            overflow: hidden;
-        }
-        
-        .cat-chip::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, #8b5cf6, #a78bfa, #c084fc);
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-        
-        .cat-chip::after {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.5), rgba(168, 85, 247, 0.3));
-            border-radius: inherit;
-            opacity: 0;
-            transition: opacity 0.4s;
-            z-index: -1;
-            filter: blur(8px);
-        }
-        
-        .cat-chip.active::before {
-            opacity: 1;
-        }
-        
-        .cat-chip.active::after {
-            opacity: 1;
-        }
-        
-        .cat-chip span {
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s;
         }
         
         .cat-chip.active { 
-            color: white;
-            box-shadow: 
-                0 6px 32px rgba(139, 92, 246, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            transform: scale(1.08) translateY(-1px);
-        }
-        
-        .cat-chip.active span {
-            transform: scale(1.05);
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa) !important;
+            color: white !important;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
+            border-color: rgba(255, 255, 255, 0.2) !important;
         }
         
         .cat-chip:active {
-            transform: scale(0.95);
+            transform: scale(0.98);
         }
         
-        /* 底部導航 - 極致優化 */
+        /* 底部導航 - 簡化特效 */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -363,17 +281,15 @@
             right: 0;
             z-index: 100;
             background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9));
-            backdrop-filter: blur(40px) saturate(200%);
-            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             border-top: 1px solid rgba(255, 255, 255, 0.12);
             padding-bottom: env(safe-area-inset-bottom);
-            box-shadow: 
-                0 -12px 48px rgba(0, 0, 0, 0.7),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.6);
         }
         
         .nav-item {
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.2s ease;
             cursor: pointer;
             user-select: none;
             position: relative;
@@ -385,11 +301,11 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%) scaleX(0);
-            width: 40px;
-            height: 3px;
-            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+            width: 32px;
+            height: 2px;
+            background: #8b5cf6;
             border-radius: 0 0 999px 999px;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.2s ease;
         }
         
         .nav-item.active {
@@ -401,54 +317,35 @@
         }
         
         .nav-item.active .nav-icon {
-            transform: scale(1.2) translateY(-2px);
-            filter: drop-shadow(0 4px 12px rgba(139, 92, 246, 0.6));
+            transform: scale(1.1);
         }
         
         .nav-item:active {
-            transform: scale(0.92);
+            transform: scale(0.96);
         }
         
-        .nav-item:active .nav-icon {
-            transform: scale(1.1) translateY(-1px);
-        }
-        
-        /* Bottom Sheet - 極致改進 */
+        /* Bottom Sheet - 簡化特效 */
         .bottom-sheet {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.99), rgba(5, 5, 5, 0.98));
-            backdrop-filter: blur(50px) saturate(200%);
-            -webkit-backdrop-filter: blur(50px) saturate(200%);
-            border-top-left-radius: 36px;
-            border-top-right-radius: 36px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.98), rgba(5, 5, 5, 0.97));
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
             border-top: 1px solid rgba(255, 255, 255, 0.15);
             transform: translateY(100%);
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.3s ease;
             z-index: 200;
             max-height: 85vh;
             padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
-            box-shadow: 
-                0 -20px 80px rgba(0, 0, 0, 0.9),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                0 0 0 1px rgba(255, 255, 255, 0.05);
+            box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.8);
         }
         
         .bottom-sheet.open {
             transform: translateY(0);
-        }
-        
-        .bottom-sheet::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 200px;
-            background: radial-gradient(ellipse at top, rgba(139, 92, 246, 0.1), transparent 70%);
-            pointer-events: none;
         }
         
         .bottom-sheet-overlay {
@@ -475,7 +372,7 @@
             margin: 16px auto;
         }
         
-        /* Toast - 極致改進 */
+        /* Toast - 簡化特效 */
         .toast-container { 
             position: fixed; 
             bottom: 90px; 
@@ -484,59 +381,46 @@
             z-index: 9999; 
             display: flex; 
             flex-direction: column; 
-            gap: 12px; 
+            gap: 10px; 
             width: 90%; 
             max-width: 420px;
             pointer-events: none;
         }
         
         .toast { 
-            background: linear-gradient(135deg, rgba(20, 20, 20, 0.98), rgba(26, 26, 26, 0.95)); 
-            backdrop-filter: blur(32px) saturate(200%);
-            -webkit-backdrop-filter: blur(32px) saturate(200%);
+            background: rgba(20, 20, 20, 0.95); 
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.15); 
-            padding: 18px 24px; 
-            border-radius: 24px; 
-            animation: toastIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); 
+            padding: 14px 20px; 
+            border-radius: 16px; 
+            animation: toastIn 0.3s ease; 
             display: flex; 
             align-items: center; 
-            gap: 16px;
-            box-shadow: 
-                0 16px 64px rgba(0, 0, 0, 0.7),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            gap: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
             pointer-events: auto;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .toast::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.1), transparent 60%);
-            pointer-events: none;
         }
         
         @keyframes toastIn { 
             0% { 
                 opacity: 0; 
-                transform: translateY(30px) scale(0.9); 
+                transform: translateY(20px); 
             } 
             100% { 
                 opacity: 1; 
-                transform: translateY(0) scale(1); 
+                transform: translateY(0); 
             } 
         }
         
         @keyframes toastOut { 
             0% { 
                 opacity: 1; 
-                transform: translateY(0) scale(1); 
+                transform: translateY(0); 
             } 
             100% { 
                 opacity: 0; 
-                transform: translateY(-20px) scale(0.95); 
+                transform: translateY(-10px); 
             } 
         }
         
@@ -590,47 +474,27 @@
             border-color: rgba(139, 92, 246, 0.6);
         }
         
-        /* 卡片動畫 - 極致優化 */
+        /* 卡片動畫 - 實用為主，簡化特效 */
         .card-item {
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.2s ease;
             cursor: pointer;
-            will-change: transform, box-shadow;
             position: relative;
-            overflow: hidden;
-        }
-        
-        .card-item::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-                rgba(139, 92, 246, 0.15), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
         }
         
         .card-item:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.7),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                0 0 40px rgba(139, 92, 246, 0.2);
-        }
-        
-        .card-item:hover::after {
-            opacity: 1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         }
         
         .card-item:active {
-            transform: translateY(-1px) scale(0.99);
-            transition: all 0.15s;
+            transform: translateY(0);
+            transition: all 0.1s;
         }
         
-        /* 頁面切換 - 極致改進 */
+        /* 頁面切換 - 簡化動畫 */
         .page {
             display: none;
-            animation: pageIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: pageIn 0.3s ease;
         }
         
         .page.active {
@@ -640,13 +504,11 @@
         @keyframes pageIn {
             0% { 
                 opacity: 0; 
-                transform: translateY(30px) scale(0.98); 
-                filter: blur(4px);
+                transform: translateY(10px);
             }
             100% { 
                 opacity: 1; 
-                transform: translateY(0) scale(1); 
-                filter: blur(0);
+                transform: translateY(0);
             }
         }
         
@@ -719,49 +581,19 @@
             50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
         }
         
-        /* 統計卡片 - 極致增強 */
+        /* 統計卡片 - 簡化特效 */
         .stat-card {
             position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.2), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-        
-        .stat-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.05), transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s;
+            transition: all 0.2s ease;
         }
         
         .stat-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 
-                0 16px 48px rgba(0, 0, 0, 0.7),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                0 0 30px rgba(139, 92, 246, 0.3);
-        }
-        
-        .stat-card:hover::before,
-        .stat-card:hover::after {
-            opacity: 1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         }
         
         .stat-card:active {
-            transform: translateY(-2px) scale(1);
+            transform: translateY(0);
         }
         
         /* 安全區域適配 */
@@ -907,23 +739,23 @@
             animation: numberPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
-        /* 列表項目進入動畫 */
+        /* 列表項目進入動畫 - 簡化 */
         .list-item-enter {
-            animation: listItemEnter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+            animation: listItemEnter 0.3s ease backwards;
         }
         
         @keyframes listItemEnter {
             0% {
                 opacity: 0;
-                transform: translateY(20px) scale(0.95);
+                transform: translateY(10px);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
         }
         
-        /* 優化工地現場物料列表 */
+        /* 優化F22廠區物料列表 */
         .site-item {
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
@@ -984,7 +816,7 @@
                         </h1>
                         <p class="text-xs text-gray-400 mt-1 font-semibold tracking-wide" aria-label="版本號">v19.0 Pro Edition</p>
                     </div>
-                    <div id="statusBadge" class="status-badge text-xs px-4 py-2.5 rounded-full bg-white/5 text-gray-400 border border-white/10 font-semibold backdrop-blur-sm" role="status" aria-live="polite" aria-atomic="true">
+                    <div id="statusBadge" class="status-badge text-xs px-4 py-2.5 rounded-full bg-white/5 text-gray-400 border border-white/10 font-semibold backdrop-blur-sm" role="status" aria-live="polite" aria-atomic="true" title="網絡連接狀態">
                         連線中...
                     </div>
                 </div>
@@ -1022,12 +854,12 @@
                     <div id="categoryLegend" class="flex flex-wrap gap-4 text-xs text-gray-400"></div>
                 </div>
                 
-                <!-- 工地現場物料清單 -->
+                <!-- F22廠區物料清單 -->
                 <div class="glass rounded-3xl p-6">
                     <div class="flex items-center justify-between mb-5">
                         <div class="flex items-center gap-2.5">
                             <span class="text-2xl">🏗️</span>
-                            <h3 class="text-lg font-bold text-white">工地現場物料</h3>
+                            <h3 class="text-lg font-bold text-white">F22廠區物料</h3>
                         </div>
                         <span id="siteItemCount" class="text-xs px-3.5 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/30 to-cyan-400/20 text-cyan-300 font-bold border border-cyan-400/40 shadow-lg shadow-cyan-500/20">-</span>
                     </div>
@@ -1036,7 +868,7 @@
                     </div>
                     <div id="siteItemsEmpty" class="hidden text-center py-12">
                         <div class="text-5xl mb-3 opacity-40">📭</div>
-                        <p class="text-gray-500 text-sm font-medium">工地現場暫無物料</p>
+                        <p class="text-gray-500 text-sm font-medium">F22廠區暫無物料</p>
                     </div>
                 </div>
             </div>
@@ -1055,14 +887,17 @@
                         <input 
                             type="search" 
                             id="searchInput" 
-                            placeholder="搜尋品名、規格..." 
+                            placeholder="搜尋品名、規格、速記碼..." 
                             class="search-input flex-1 bg-transparent text-white placeholder-gray-500 text-base font-semibold focus:outline-none"
                             autocomplete="off"
                             aria-label="搜尋物料品名或規格"
                             aria-describedby="searchHint"
+                            list="searchHistory"
                         >
+                        <datalist id="searchHistory"></datalist>
                     </div>
                     <div id="searchHint" class="sr-only">輸入關鍵字以搜尋物料</div>
+                    <div id="searchResultsCount" class="text-xs text-gray-500 mt-2 hidden"></div>
                 </div>
                 
                 <!-- 分類標籤 -->
@@ -1085,6 +920,20 @@
                     <button class="cat-chip px-6 py-3 rounded-full text-sm font-bold bg-white/5 text-gray-300 border border-white/10" data-cat="hardware" role="tab" aria-selected="false" aria-controls="inventoryList" tabindex="-1">
                         <span>🔧 五金</span>
                     </button>
+                </div>
+                
+                <!-- 批量操作欄 -->
+                <div id="batchActions" class="hidden glass rounded-2xl p-4 mb-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm font-bold text-white">已選擇 <span id="selectedCount">0</span> 項</span>
+                            <button onclick="clearSelection()" class="text-xs text-gray-400 hover:text-white">清除</button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="batchAdjust('w', 1)" class="btn-interactive px-4 py-2 rounded-xl bg-purple-600/20 text-purple-300 text-sm font-bold border border-purple-500/40">公司倉 +1</button>
+                            <button onclick="batchAdjust('s', 1)" class="btn-interactive px-4 py-2 rounded-xl bg-cyan-600/20 text-cyan-300 text-sm font-bold border border-cyan-500/40">F22廠區 +1</button>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- 庫存列表 -->
@@ -1244,7 +1093,12 @@
             currentItem: null,
             isLoading: false,
             updateTimers: {},
-            currentOperator: '黃俊瑋' // 預設操作人員
+            currentOperator: '黃俊瑋', // 預設操作人員
+            pendingUpdates: {}, // 待同步的操作（用於錯誤恢復）
+            isOnline: navigator.onLine, // 網絡狀態
+            selectedItems: [], // 批量選擇的物料
+            searchHistory: [], // 搜索歷史
+            operationHistory: [] // 操作歷史（本地緩存）
         };
         
         // 操作人員清單
@@ -1439,6 +1293,7 @@
             // 如果切換到設定頁，渲染操作人員選擇器和 PWA 安裝選項
             if (page === 'settings') {
                 renderOperatorSelector();
+                renderOperationHistory();
                 // 延遲一下確保 DOM 已渲染
                 setTimeout(function() {
                     updatePWAInstallSection();
@@ -1555,12 +1410,12 @@
             el.categoryBar.innerHTML = barHtml;
             el.categoryLegend.innerHTML = legendHtml;
             
-            // 更新工地現場物料清單
+            // 更新F22廠區物料清單
             renderSiteItems();
         }
         
         function renderSiteItems() {
-            // 篩選出現場有庫存的物料
+            // 篩選出F22廠區有庫存的物料
             var siteItems = [];
             for (var i = 0; i < state.stock.length; i++) {
                 var item = state.stock[i];
@@ -1569,7 +1424,7 @@
                 }
             }
             
-            // 按現場數量降序排列
+            // 按F22廠區數量降序排列
             siteItems.sort(function(a, b) {
                 return safeNum(b.siteQty) - safeNum(a.siteQty);
             });
@@ -1661,19 +1516,24 @@
             
             var cat = getCategory(item);
             var icon = getCategoryIcon(cat);
+            var isSelected = state.selectedItems.indexOf(id) >= 0;
+            var selectClass = isSelected ? 'ring-2 ring-purple-500 ring-offset-2 ring-offset-black' : '';
             
-            return '<div class="card-item glass rounded-3xl p-6 gpu-accelerated list-item-enter" ' +
-                'onclick="openBottomSheet(\'' + escapeHtml(id) + '\')" ' +
-                'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){openBottomSheet(\'' + escapeHtml(id) + '\');event.preventDefault();}" ' +
+            return '<div class="card-item glass rounded-3xl p-6 gpu-accelerated list-item-enter ' + selectClass + '" ' +
+                'onclick="handleItemClick(event, \'' + escapeHtml(id) + '\')" ' +
+                'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){handleItemClick(event, \'' + escapeHtml(id) + '\');event.preventDefault();}" ' +
                 'data-id="' + escapeHtml(id) + '" ' +
                 'role="button" ' +
                 'tabindex="0" ' +
-                'aria-label="' + escapeHtml(name) + '，規格：' + escapeHtml(spec) + '，公司倉：' + wQty + '，現場倉：' + sQty + '，' + statusText + '" ' +
-                'style="animation-delay: ' + (idx * 0.03) + 's">' +
+                'aria-label="' + escapeHtml(name) + '，規格：' + escapeHtml(spec) + '，公司倉：' + wQty + '，F22廠區：' + sQty + '，' + statusText + '" ' +
+                'style="animation-delay: ' + (idx * 0.02) + 's">' +
                 '<div class="flex items-start justify-between gap-5">' +
                     '<div class="flex-1 min-w-0">' +
                         '<div class="flex items-center gap-3 mb-3">' +
-                            '<span class="text-3xl filter drop-shadow-lg" aria-hidden="true">' + icon + '</span>' +
+                            '<input type="checkbox" class="item-checkbox w-5 h-5 rounded border-2 border-white/20 bg-white/5 checked:bg-purple-600" ' +
+                                'onclick="event.stopPropagation();toggleItemSelection(\'' + escapeHtml(id) + '\')" ' +
+                                (isSelected ? 'checked' : '') + '>' +
+                            '<span class="text-3xl" aria-hidden="true">' + icon + '</span>' +
                             '<h3 class="font-extrabold text-white text-lg truncate">' + escapeHtml(name) + '</h3>' +
                         '</div>' +
                         '<p class="text-xs text-gray-400 mb-4 font-semibold">' + escapeHtml(spec) + ' · ' + escapeHtml(unit) + '</p>' +
@@ -1687,12 +1547,95 @@
                             '<p class="text-[10px] text-gray-500 font-bold mt-1.5 tracking-wide">公司倉</p>' +
                         '</div>' +
                         '<div>' +
-                            '<p class="big-number text-4xl font-extrabold text-cyan-400 leading-none" id="s-' + escapeHtml(id) + '" aria-label="現場倉庫存">' + sQty + '</p>' +
-                            '<p class="text-[10px] text-gray-500 font-bold mt-1.5 tracking-wide">現場倉</p>' +
+                            '<p class="big-number text-4xl font-extrabold text-cyan-400 leading-none" id="s-' + escapeHtml(id) + '" aria-label="F22廠區庫存">' + sQty + '</p>' +
+                            '<p class="text-[10px] text-gray-500 font-bold mt-1.5 tracking-wide">F22廠區</p>' +
                         '</div>' +
                     '</div>' +
                 '</div>' +
             '</div>';
+        }
+        
+        // 處理物料點擊（支持批量選擇）
+        function handleItemClick(event, id) {
+            // 如果按住 Ctrl/Cmd，切換選擇狀態
+            if (event.ctrlKey || event.metaKey) {
+                event.preventDefault();
+                toggleItemSelection(id);
+                return;
+            }
+            // 否則打開盤點視窗
+            openBottomSheet(id);
+        }
+        
+        // 切換物料選擇狀態
+        function toggleItemSelection(id) {
+            var index = state.selectedItems.indexOf(id);
+            if (index >= 0) {
+                state.selectedItems.splice(index, 1);
+            } else {
+                state.selectedItems.push(id);
+            }
+            updateBatchActions();
+            renderList(); // 重新渲染以更新選擇狀態
+        }
+        
+        // 清除選擇
+        function clearSelection() {
+            state.selectedItems = [];
+            updateBatchActions();
+            renderList();
+        }
+        
+        // 更新批量操作欄
+        function updateBatchActions() {
+            var batchBar = document.getElementById('batchActions');
+            var countEl = document.getElementById('selectedCount');
+            if (!batchBar || !countEl) return;
+            
+            if (state.selectedItems.length > 0) {
+                batchBar.classList.remove('hidden');
+                countEl.textContent = state.selectedItems.length;
+            } else {
+                batchBar.classList.add('hidden');
+            }
+        }
+        
+        // 批量調整數量
+        function batchAdjust(type, delta) {
+            if (state.selectedItems.length === 0) {
+                toast('請先選擇物料', 'warning');
+                return;
+            }
+            
+            var count = state.selectedItems.length;
+            if (!confirm('確定要對 ' + count + ' 個物料進行批量調整嗎？')) {
+                return;
+            }
+            
+            var successCount = 0;
+            var failCount = 0;
+            
+            state.selectedItems.forEach(function(id) {
+                var item = null;
+                for (var i = 0; i < state.stock.length; i++) {
+                    if (state.stock[i].id == id) {
+                        item = state.stock[i];
+                        break;
+                    }
+                }
+                if (!item) {
+                    failCount++;
+                    return;
+                }
+                
+                state.currentItem = item;
+                adjustQty(type, delta);
+                successCount++;
+            });
+            
+            state.currentItem = null;
+            clearSelection();
+            toast('已批量調整 ' + successCount + ' 個物料' + (failCount > 0 ? '，' + failCount + ' 個失敗' : ''), successCount > 0 ? 'success' : 'error');
         }
 
         function openBottomSheet(id) {
@@ -1750,13 +1693,13 @@
                     '</div>' +
                     '<div class="glass-strong rounded-3xl p-6 relative overflow-hidden">' +
                         '<div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl" aria-hidden="true"></div>' +
-                        '<p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-5 relative z-10">現場倉庫存</p>' +
-                        '<div class="flex items-center justify-between gap-5 relative z-10" role="group" aria-label="調整現場倉庫存">' +
-                            '<button onclick="adjustQty(\'s\', -1)" class="btn-interactive w-16 h-16 rounded-3xl bg-red-600/20 text-red-400 flex items-center justify-center text-3xl font-extrabold border-2 border-red-600/40 shadow-lg shadow-red-600/20" aria-label="減少現場倉庫存">−</button>' +
+                        '<p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-5 relative z-10">F22廠區庫存</p>' +
+                        '<div class="flex items-center justify-between gap-5 relative z-10" role="group" aria-label="調整F22廠區庫存">' +
+                            '<button onclick="adjustQty(\'s\', -1)" class="btn-interactive w-16 h-16 rounded-3xl bg-red-600/20 text-red-400 flex items-center justify-center text-3xl font-extrabold border-2 border-red-600/40 shadow-lg shadow-red-600/20" aria-label="減少F22廠區庫存">−</button>' +
                             '<div class="text-center flex-1">' +
                                 '<p class="big-number text-6xl font-extrabold text-cyan-400 leading-none" id="bs-s-' + id + '" aria-live="polite" aria-atomic="true">' + sQty + '</p>' +
                             '</div>' +
-                            '<button onclick="adjustQty(\'s\', 1)" class="btn-interactive w-16 h-16 rounded-3xl bg-green-600/20 text-green-400 flex items-center justify-center text-3xl font-extrabold border-2 border-green-600/40 shadow-lg shadow-green-600/20" aria-label="增加現場倉庫存">+</button>' +
+                            '<button onclick="adjustQty(\'s\', 1)" class="btn-interactive w-16 h-16 rounded-3xl bg-green-600/20 text-green-400 flex items-center justify-center text-3xl font-extrabold border-2 border-green-600/40 shadow-lg shadow-green-600/20" aria-label="增加F22廠區庫存">+</button>' +
                         '</div>' +
                     '</div>' +
                 '</div>';
@@ -1833,17 +1776,41 @@
         function adjustQty(type, delta) {
             if (!state.currentItem) return;
             
+            // 檢查網絡狀態
+            if (!state.isOnline) {
+                toast('⚠️ 目前離線，操作將在連線後同步', 'warning');
+            }
+            
             var id = state.currentItem.id;
             var isW = type === 'w';
             
-            // 更新本地狀態
-            if (isW) {
-                state.currentItem.warehouseQty = Math.max(0, state.currentItem.warehouseQty + delta);
-            } else {
-                state.currentItem.siteQty = Math.max(0, state.currentItem.siteQty + delta);
+            // 保存原始值（用於錯誤恢復）
+            var oldQty = isW ? state.currentItem.warehouseQty : state.currentItem.siteQty;
+            var newQty = Math.max(0, oldQty + delta);
+            
+            // 數據驗證：檢查是否超過合理範圍
+            if (newQty > 99999) {
+                toast('數量不能超過 99999', 'warning');
+                return;
             }
             
-            var newQty = isW ? state.currentItem.warehouseQty : state.currentItem.siteQty;
+            // 重要操作確認：大量減少或減少到 0
+            if (delta < -10 || (delta < 0 && newQty === 0)) {
+                var confirmMsg = delta < -10 
+                    ? '確定要減少 ' + Math.abs(delta) + ' 件嗎？\n\n' + state.currentItem.name
+                    : '確定要將數量調整為 0 嗎？\n\n' + state.currentItem.name;
+                
+                if (!confirm(confirmMsg)) {
+                    return; // 用戶取消
+                }
+            }
+            
+            // 更新本地狀態
+            if (isW) {
+                state.currentItem.warehouseQty = newQty;
+            } else {
+                state.currentItem.siteQty = newQty;
+            }
             
             // 更新 UI
             var listEl = document.getElementById((isW ? 'w-' : 's-') + id);
@@ -1865,6 +1832,15 @@
                 clearTimeout(state.updateTimers[key]);
             }
             
+            // 保存待同步的操作（用於錯誤恢復）
+            state.pendingUpdates[key] = {
+                id: id,
+                type: type,
+                oldQty: oldQty,
+                newQty: newQty,
+                operator: state.currentOperator
+            };
+            
             state.updateTimers[key] = setTimeout(function() {
                 var action = isW ? 'warehouse_audit' : 'audit';
                 postAPI(action, { 
@@ -1874,10 +1850,29 @@
                 })
                     .then(function() { 
                         toast('✅ 已同步 (' + state.currentOperator + ')', 'success');
+                        // 記錄操作歷史
+                        recordOperation(action, state.currentItem.name, oldQty, newQty, type);
                         updateDashboard();
+                        // 清除待同步記錄
+                        delete state.pendingUpdates[key];
                     })
                     .catch(function(e) { 
-                        toast('同步失敗: ' + e.message, 'error');
+                        // 錯誤恢復：恢復到原始值
+                        if (isW) {
+                            state.currentItem.warehouseQty = oldQty;
+                        } else {
+                            state.currentItem.siteQty = oldQty;
+                        }
+                        
+                        // 恢復 UI
+                        if (listEl) listEl.textContent = oldQty;
+                        if (sheetEl) sheetEl.textContent = oldQty;
+                        
+                        // 清除待同步記錄
+                        delete state.pendingUpdates[key];
+                        
+                        toast('❌ 同步失敗，已恢復原值: ' + e.message, 'error');
+                        updateDashboard();
                     });
                 
                 delete state.updateTimers[key];
@@ -2023,7 +2018,7 @@
                 return;
             }
             
-            var rows = [['ID', '品名', '規格', '單位', '公司倉', '現場', '安全存量']];
+            var rows = [['ID', '品名', '規格', '單位', '公司倉', 'F22廠區', '安全存量']];
             state.filtered.forEach(function(it) {
                 rows.push([it.id, it.name, it.spec, it.unit, it.warehouseQty, it.siteQty, it.safeQty]);
             });
@@ -2043,12 +2038,138 @@
             toast('已匯出 ' + state.filtered.length + ' 筆', 'success');
         }
 
+        // ===== 操作歷史記錄 =====
+        function recordOperation(action, itemName, oldQty, newQty, type) {
+            var record = {
+                time: new Date().toLocaleString('zh-TW'),
+                operator: state.currentOperator,
+                action: action,
+                itemName: itemName,
+                type: type === 'w' ? '公司倉' : 'F22廠區',
+                oldQty: oldQty,
+                newQty: newQty,
+                delta: newQty - oldQty
+            };
+            
+            state.operationHistory.unshift(record);
+            
+            // 只保留最近 50 條記錄
+            if (state.operationHistory.length > 50) {
+                state.operationHistory = state.operationHistory.slice(0, 50);
+            }
+            
+            // 保存到 localStorage
+            try {
+                localStorage.setItem('operationHistory', JSON.stringify(state.operationHistory));
+            } catch (e) {
+                console.warn('無法保存操作歷史到 localStorage:', e);
+            }
+        }
+        
+        function renderOperationHistory() {
+            // 從 localStorage 載入歷史記錄
+            try {
+                var saved = localStorage.getItem('operationHistory');
+                if (saved) {
+                    state.operationHistory = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.warn('無法載入操作歷史:', e);
+            }
+            
+            // 查找或創建操作歷史容器
+            var container = document.getElementById('operationHistoryContainer');
+            if (!container) {
+                // 在設定頁面中查找合適的位置插入
+                var settingsPage = document.getElementById('page-settings');
+                if (settingsPage) {
+                    var aboutSection = settingsPage.querySelector('.glass.rounded-3xl:last-of-type');
+                    if (aboutSection) {
+                        var historySection = document.createElement('div');
+                        historySection.className = 'glass rounded-3xl p-6';
+                        historySection.innerHTML = 
+                            '<h3 class="text-lg font-extrabold text-white mb-5 flex items-center gap-2">' +
+                            '<span>📋</span>' +
+                            '<span>操作歷史</span>' +
+                            '</h3>' +
+                            '<div id="operationHistoryContainer" class="space-y-2 max-h-96 overflow-y-auto"></div>';
+                        aboutSection.parentNode.insertBefore(historySection, aboutSection);
+                        container = document.getElementById('operationHistoryContainer');
+                    }
+                }
+            }
+            
+            if (!container) return;
+            
+            if (state.operationHistory.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-sm text-center py-8">暫無操作記錄</p>';
+                return;
+            }
+            
+            var html = '';
+            var displayCount = Math.min(state.operationHistory.length, 20); // 只顯示最近 20 條
+            for (var i = 0; i < displayCount; i++) {
+                var record = state.operationHistory[i];
+                var deltaText = record.delta > 0 ? '+' + record.delta : record.delta;
+                var deltaClass = record.delta > 0 ? 'text-green-400' : (record.delta < 0 ? 'text-red-400' : 'text-gray-400');
+                
+                html += '<div class="p-3 rounded-xl bg-white/5 border border-white/5 text-sm">' +
+                    '<div class="flex justify-between items-start mb-1">' +
+                        '<span class="text-white font-bold truncate flex-1">' + escapeHtml(record.itemName) + '</span>' +
+                        '<span class="' + deltaClass + ' font-extrabold ml-2">' + deltaText + '</span>' +
+                    '</div>' +
+                    '<div class="flex justify-between items-center text-xs text-gray-400">' +
+                        '<span>' + escapeHtml(record.type) + ' ' + record.oldQty + ' → ' + record.newQty + '</span>' +
+                        '<span>' + escapeHtml(record.time) + '</span>' +
+                    '</div>' +
+                    '<div class="text-xs text-gray-500 mt-1">操作人員：' + escapeHtml(record.operator) + '</div>' +
+                '</div>';
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // ===== 搜索歷史 =====
+        function saveSearchHistory(searchText) {
+            if (!searchText || !searchText.trim()) return;
+            
+            var text = searchText.trim();
+            var index = state.searchHistory.indexOf(text);
+            if (index >= 0) {
+                state.searchHistory.splice(index, 1);
+            }
+            state.searchHistory.unshift(text);
+            
+            // 只保留最近 5 次搜索
+            if (state.searchHistory.length > 5) {
+                state.searchHistory = state.searchHistory.slice(0, 5);
+            }
+            
+            // 更新 datalist
+            var datalist = document.getElementById('searchHistory');
+            if (datalist) {
+                datalist.innerHTML = state.searchHistory.map(function(s) {
+                    return '<option value="' + escapeHtml(s) + '">';
+                }).join('');
+            }
+        }
+
         // ===== 事件綁定 =====
         function bindEvents() {
             // 搜尋
             el.searchInput.addEventListener('input', function(e) {
                 state.searchText = e.target.value;
+                if (state.searchText.trim()) {
+                    saveSearchHistory(state.searchText);
+                }
                 applyFiltersDebounced();
+            });
+            
+            // 搜索框 Enter 鍵
+            el.searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && state.searchText.trim()) {
+                    saveSearchHistory(state.searchText);
+                }
             });
             
             // 分類
@@ -2269,11 +2390,67 @@
             updateAppMode();
         });
         
+        // ===== 網絡狀態監聽 =====
+        function updateOnlineStatus() {
+            state.isOnline = navigator.onLine;
+            var statusEl = el.statusBadge;
+            if (statusEl) {
+                if (state.isOnline) {
+                    if (!statusEl.textContent.includes('離線')) {
+                        setStatus('online', '線上');
+                    }
+                } else {
+                    setStatus('error', '離線模式');
+                    toast('⚠️ 目前離線，部分功能可能無法使用', 'warning');
+                }
+            }
+        }
+        
+        window.addEventListener('online', function() {
+            updateOnlineStatus();
+            toast('✅ 網絡已恢復', 'success');
+            // 重試失敗的操作
+            retryFailedUpdates();
+        });
+        
+        window.addEventListener('offline', function() {
+            updateOnlineStatus();
+        });
+        
+        // 重試失敗的操作
+        function retryFailedUpdates() {
+            var keys = Object.keys(state.pendingUpdates);
+            if (keys.length === 0) return;
+            
+            toast('正在重試同步 ' + keys.length + ' 個操作...', 'info');
+            
+            keys.forEach(function(key) {
+                var update = state.pendingUpdates[key];
+                var action = update.type === 'w' ? 'warehouse_audit' : 'audit';
+                
+                postAPI(action, {
+                    id: update.id,
+                    qty: update.newQty,
+                    person: update.operator
+                })
+                    .then(function() {
+                        delete state.pendingUpdates[key];
+                        if (Object.keys(state.pendingUpdates).length === 0) {
+                            toast('✅ 所有操作已同步', 'success');
+                        }
+                    })
+                    .catch(function(e) {
+                        console.error('重試失敗:', e);
+                    });
+            });
+        }
+        
         // ===== 初始化 =====
         function init() {
             initDOM();
             bindEvents();
             handleURLParams(); // 處理 URL 參數（PWA shortcuts）
+            updateOnlineStatus(); // 初始化網絡狀態
             loadData(false);
         }
 
