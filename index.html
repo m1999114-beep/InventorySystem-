@@ -1523,12 +1523,10 @@
             
             var cat = getCategory(item);
             var icon = getCategoryIcon(cat);
-            var isSelected = state.selectedItems.indexOf(id) >= 0;
-            var selectClass = isSelected ? 'ring-2 ring-purple-500 ring-offset-2 ring-offset-black' : '';
             
-            return '<div class="card-item glass rounded-3xl p-6 gpu-accelerated list-item-enter ' + selectClass + '" ' +
-                'onclick="handleItemClick(event, \'' + escapeHtml(id) + '\')" ' +
-                'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){handleItemClick(event, \'' + escapeHtml(id) + '\');event.preventDefault();}" ' +
+            return '<div class="card-item glass rounded-3xl p-6 gpu-accelerated list-item-enter" ' +
+                'onclick="openBottomSheet(\'' + escapeHtml(id) + '\')" ' +
+                'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){openBottomSheet(\'' + escapeHtml(id) + '\');event.preventDefault();}" ' +
                 'data-id="' + escapeHtml(id) + '" ' +
                 'role="button" ' +
                 'tabindex="0" ' +
@@ -1537,13 +1535,10 @@
                 '<div class="flex items-start justify-between gap-5">' +
                     '<div class="flex-1 min-w-0">' +
                         '<div class="flex items-center gap-3 mb-3">' +
-                            '<input type="checkbox" class="item-checkbox w-5 h-5 rounded border-2 border-white/20 bg-white/5 checked:bg-purple-600" ' +
-                                'onclick="event.stopPropagation();toggleItemSelection(\'' + escapeHtml(id) + '\')" ' +
-                                (isSelected ? 'checked' : '') + '>' +
                             '<span class="text-3xl" aria-hidden="true">' + icon + '</span>' +
                             '<h3 class="font-extrabold text-white text-lg truncate">' + escapeHtml(name) + '</h3>' +
                         '</div>' +
-                        '<p class="text-xs text-gray-400 mb-4 font-semibold">' + escapeHtml(spec) + ' · ' + escapeHtml(unit) + '</p>' +
+                        '<p class="text-xs text-gray-400 mb-4 font-semibold">' + escapeHtml(spec) + ' · <span class="unit-editable inline-block px-1 py-0.5 rounded cursor-text hover:bg-white/10 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500" contenteditable="true" data-id="' + escapeHtml(id) + '" onclick="event.stopPropagation();" onblur="saveUnit(\'' + escapeHtml(id) + '\', this.textContent)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}">' + escapeHtml(unit) + '</span></p>' +
                         '<div class="stock-bar" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100" aria-label="庫存水平：' + pct.toFixed(0) + '%">' +
                             '<div class="stock-bar-fill ' + colorClass + '" style="width:' + pct + '%"></div>' +
                         '</div>' +
@@ -1562,15 +1557,9 @@
             '</div>';
         }
         
-        // 處理物料點擊（支持批量選擇）
+        // 處理物料點擊
         function handleItemClick(event, id) {
-            // 如果按住 Ctrl/Cmd，切換選擇狀態
-            if (event.ctrlKey || event.metaKey) {
-                event.preventDefault();
-                toggleItemSelection(id);
-                return;
-            }
-            // 否則打開盤點視窗
+            // 直接打開盤點視窗
             openBottomSheet(id);
         }
         
@@ -1665,7 +1654,7 @@
                 var op = OPERATORS[i];
                 var isActive = (op === state.currentOperator);
                 var activeClass = isActive ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white border-purple-400/50 shadow-lg shadow-purple-500/30' : 'bg-white/5 text-gray-300 border-white/10';
-                operatorButtons += '<button onclick="setOperator(\'' + escapeHtml(op) + '\")" ' +
+                operatorButtons += '<button onclick="setOperator(\'' + escapeHtml(op) + '\')" ' +
                     'class="operator-btn btn-interactive px-5 py-3 rounded-2xl text-sm font-bold border-2 transition-all ' + activeClass + '" ' +
                     'data-operator="' + escapeHtml(op) + '" ' +
                     'aria-label="選擇操作人員 ' + escapeHtml(op) + '" ' +
@@ -1677,7 +1666,7 @@
             el.bottomSheetContent.innerHTML = 
                 '<div class="mb-8">' +
                     '<h2 id="bottomSheetTitle" class="text-3xl font-extrabold text-white mb-3 leading-tight">' + escapeHtml(item.name) + '</h2>' +
-                    '<p class="text-sm text-gray-400 font-semibold">' + escapeHtml(item.spec) + ' · ' + escapeHtml(item.unit) + '</p>' +
+                    '<p class="text-sm text-gray-400 font-semibold">' + escapeHtml(item.spec) + ' · <span class="unit-editable inline-block px-1 py-0.5 rounded cursor-text hover:bg-white/10 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500" contenteditable="true" data-id="' + escapeHtml(id) + '" onclick="event.stopPropagation();" onblur="saveUnit(\'' + escapeHtml(id) + '\', this.textContent)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}">' + escapeHtml(item.unit) + '</span></p>' +
                 '</div>' +
                 '<div class="glass rounded-3xl p-5 mb-6">' +
                     '<div class="flex items-center gap-2.5 mb-4">' +
@@ -1887,6 +1876,69 @@
             
             // 即時回饋
             updateDashboard();
+        }
+
+        // ===== 保存單位 =====
+        function saveUnit(id, newUnit) {
+            newUnit = (newUnit || '').trim();
+            if (!newUnit) {
+                toast('單位不能為空', 'warning');
+                // 恢復原值
+                var item = null;
+                for (var i = 0; i < state.stock.length; i++) {
+                    if (state.stock[i].id == id) {
+                        item = state.stock[i];
+                        break;
+                    }
+                }
+                if (item) {
+                    var unitEl = document.querySelector('.unit-editable[data-id="' + id + '"]');
+                    if (unitEl) unitEl.textContent = item.unit || '個';
+                }
+                return;
+            }
+            
+            // 查找項目
+            var item = null;
+            for (var i = 0; i < state.stock.length; i++) {
+                if (state.stock[i].id == id) {
+                    item = state.stock[i];
+                    break;
+                }
+            }
+            if (!item) return;
+            
+            // 如果沒有變化，不保存
+            if (item.unit === newUnit) return;
+            
+            var oldUnit = item.unit;
+            item.unit = newUnit;
+            
+            // 更新底部視窗中的單位顯示（如果打開）
+            if (state.currentItem && state.currentItem.id == id) {
+                state.currentItem.unit = newUnit;
+            }
+            
+            // 更新列表中的所有單位顯示
+            var allUnitEls = document.querySelectorAll('.unit-editable[data-id="' + id + '"]');
+            for (var j = 0; j < allUnitEls.length; j++) {
+                if (allUnitEls[j].textContent.trim() !== newUnit) {
+                    allUnitEls[j].textContent = newUnit;
+                }
+            }
+            
+            // 發送到後端
+            postAPI('update_unit', { id: id, unit: newUnit })
+                .then(function() {
+                    toast('✅ 單位已更新', 'success');
+                })
+                .catch(function(e) {
+                    // 恢復原值
+                    item.unit = oldUnit;
+                    var unitEl = document.querySelector('.unit-editable[data-id="' + id + '"]');
+                    if (unitEl) unitEl.textContent = oldUnit || '個';
+                    toast('❌ 更新失敗: ' + e.message, 'error');
+                });
         }
 
         // ===== 篩選 =====
@@ -2246,6 +2298,7 @@
         window.adjustQty = adjustQty;
         window.setOperator = setOperator;
         window.setOperatorGlobal = setOperatorGlobal;
+        window.saveUnit = saveUnit;
         window.installPWA = installPWA;
 
         // ===== PWA Service Worker 註冊 =====
