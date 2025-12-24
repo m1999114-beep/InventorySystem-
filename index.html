@@ -1500,7 +1500,7 @@
             el.inventoryList.appendChild(fragment);
         }
 
-        function renderItem(item, idx) {
+      function renderItem(item, idx) {
             var id = safeStr(item.id, idx);
             var name = safeStr(item.name, '未命名');
             var spec = safeStr(item.spec, '-');
@@ -1524,7 +1524,6 @@
             var cat = getCategory(item);
             var icon = getCategoryIcon(cat);
             
-            // 修改處開始：將 spec (規格) 移到 h3 標題內，並調整下方副標題
             return '<div class="card-item glass rounded-3xl p-6 gpu-accelerated list-item-enter" ' +
                 'onclick="openBottomSheet(\'' + escapeHtml(id) + '\')" ' +
                 'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){openBottomSheet(\'' + escapeHtml(id) + '\');event.preventDefault();}" ' +
@@ -1537,13 +1536,18 @@
                     '<div class="flex-1 min-w-0">' +
                         '<div class="flex items-center gap-3 mb-3">' +
                             '<span class="text-3xl flex-shrink-0" aria-hidden="true">' + icon + '</span>' +
-                            // --- 修改這裡：在標題中加入規格 ---
-                            '<h3 class="font-extrabold text-white text-lg truncate">' + 
+                            
+                            // --- 修改重點 ---
+                            // 這裡使用了 text-amber-300 (琥珀金)，這在黑底上非常清楚且不刺眼
+                            // 如果你想換成天空藍，請把 text-amber-300 改為 text-sky-300
+                            // 如果你想換成薄荷綠，請把 text-amber-300 改為 text-emerald-300
+                            '<h3 class="font-extrabold text-white text-lg truncate flex items-baseline">' + 
                                 escapeHtml(name) + 
-                                '<span class="ml-2 text-gray-300 font-normal text-base">' + escapeHtml(spec) + '</span>' +
+                                '<span class="ml-3 text-amber-300 font-bold text-xl">' + escapeHtml(spec) + '</span>' +
                             '</h3>' +
+                            // --- 修改結束 ---
+                            
                         '</div>' +
-                        // --- 修改這裡：下方只保留單位 ---
                         '<p class="text-xs text-gray-400 mb-4 font-semibold">單位：<span class="unit-editable inline-block px-1 py-0.5 rounded cursor-text hover:bg-white/10 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500" contenteditable="true" data-id="' + escapeHtml(id) + '" onclick="event.stopPropagation();" onblur="saveUnit(\'' + escapeHtml(id) + '\', this.textContent)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}">' + escapeHtml(unit) + '</span></p>' +
                         '<div class="stock-bar" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100" aria-label="庫存水平：' + pct.toFixed(0) + '%">' +
                             '<div class="stock-bar-fill ' + colorClass + '" style="width:' + pct + '%"></div>' +
@@ -1561,12 +1565,6 @@
                     '</div>' +
                 '</div>' +
             '</div>';
-        }
-        
-        // 處理物料點擊
-        function handleItemClick(event, id) {
-            // 直接打開盤點視窗
-            openBottomSheet(id);
         }
         
         // 切換物料選擇狀態
