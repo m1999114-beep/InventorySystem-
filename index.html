@@ -86,6 +86,14 @@
             line-height: 1.6;
             /* WCAG AA 對比度優化 */
             color: #f5f5f5; /* 提升對比度 */
+            /* 增大基礎字體提升易讀性 */
+            font-size: 16px;
+        }
+        
+        @media (min-width: 640px) {
+            body {
+                font-size: 17px;
+            }
         }
         
         /* 確保最小觸摸目標 44x44px (WCAG 2.5.5) */
@@ -519,17 +527,40 @@
             }
         }
         
-        /* 數字顯示 - 極致優化 */
+        /* 數字顯示 - 極致優化 - 增大字體提升易讀性 */
         .big-number {
             font-variant-numeric: tabular-nums;
-            letter-spacing: -0.04em;
-            font-weight: 800;
-            text-shadow: 0 2px 20px rgba(139, 92, 246, 0.3);
-            background: linear-gradient(135deg, #ffffff, rgba(255, 255, 255, 0.9));
+            letter-spacing: -0.02em;
+            font-weight: 900;
+            text-shadow: 0 2px 20px rgba(139, 92, 246, 0.4);
+            background: linear-gradient(135deg, #ffffff, rgba(255, 255, 255, 0.95));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             transition: all 0.3s;
+            /* 提升易讀性 */
+            line-height: 1.1;
+        }
+        
+        /* Header 大數字 - 超大顯示 */
+        .header-big-number {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        @media (max-width: 640px) {
+            .header-big-number {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-big-number {
+                font-size: 2.5rem;
+            }
         }
         
         .big-number.text-purple-400 {
@@ -634,13 +665,17 @@
             line-height: 1.2;
         }
         
-        /* 提升文字對比度 */
+        /* 提升文字對比度 - 進一步優化易讀性 */
+        .text-gray-300 {
+            color: #d4d4d8; /* 提升對比度 */
+        }
+        
         .text-gray-400 {
-            color: #a1a1aa; /* 提升對比度 */
+            color: #b8b8c0; /* 提升對比度 */
         }
         
         .text-gray-500 {
-            color: #71717a; /* 提升對比度 */
+            color: #9ca3af; /* 提升對比度 */
         }
         
         /* 錯誤狀態對比度優化 */
@@ -651,6 +686,19 @@
         /* 成功狀態對比度優化 */
         .text-green-400 {
             color: #4ade80; /* 確保對比度 */
+        }
+        
+        /* 改善卡片內文字對比度 */
+        .glass p, .glass span, .glass h3 {
+            color: #f5f5f5;
+        }
+        
+        .glass .text-gray-400 {
+            color: #c4c4cc;
+        }
+        
+        .glass .text-gray-500 {
+            color: #a1a1aa;
         }
         
         /* 屏幕閱讀器專用 */
@@ -746,6 +794,40 @@
             animation: numberPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
+        /* 可編輯數字輸入框 */
+        .editable-number {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .editable-number:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+        
+        .editable-number-input {
+            background: rgba(139, 92, 246, 0.2);
+            border: 2px solid rgba(139, 92, 246, 0.6);
+            border-radius: 12px;
+            padding: 8px 16px;
+            text-align: center;
+            font-size: inherit;
+            font-weight: inherit;
+            color: inherit;
+            width: 100%;
+            max-width: 200px;
+            outline: none;
+            font-family: inherit;
+        }
+        
+        .editable-number-input:focus {
+            background: rgba(139, 92, 246, 0.3);
+            border-color: rgba(139, 92, 246, 0.8);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.25);
+        }
+        
         /* 列表項目進入動畫 - 簡化 */
         .list-item-enter {
             animation: listItemEnter 0.3s ease backwards;
@@ -815,21 +897,38 @@
         
         <!-- Header -->
         <header id="header" class="glass-strong sticky top-0 z-50 safe-top" role="banner">
-            <div class="px-5 py-5">
+            <div class="px-5 py-6">
+                <!-- 主要統計數字 - 最上方 -->
+                <div class="grid grid-cols-3 gap-3 mb-5">
+                    <div class="text-center">
+                        <p class="text-xs text-gray-400 font-bold mb-2.5 tracking-wide" aria-label="總品項標籤">總品項</p>
+                        <p id="headerTotalItems" class="header-big-number big-number text-white leading-none">-</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs text-gray-400 font-bold mb-2.5 tracking-wide" aria-label="F22廠區標籤">F22廠區</p>
+                        <p id="headerSiteItems" class="header-big-number big-number text-cyan-400 leading-none">-</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs text-gray-400 font-bold mb-2.5 tracking-wide" aria-label="低庫存標籤">低庫存</p>
+                        <p id="headerLowStock" class="header-big-number big-number text-yellow-400 leading-none">-</p>
+                    </div>
+                </div>
+                
+                <!-- 標題和狀態 -->
                 <div class="flex justify-between items-center mb-3">
                     <div>
-                        <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-purple-500 to-purple-600 animate-gradient">
+                        <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-purple-500 to-purple-600 animate-gradient">
                             物料戰情室
                         </h1>
-                        <p class="text-xs text-gray-400 mt-1 font-semibold tracking-wide" aria-label="版本號">v19.1 Pro Edition</p>
+                        <p class="text-xs text-gray-500 mt-1 font-semibold tracking-wide" aria-label="版本號">v19.1 Pro Edition</p>
                     </div>
-                    <div id="statusBadge" class="status-badge text-xs px-4 py-2.5 rounded-full bg-white/5 text-gray-400 border border-white/10 font-semibold backdrop-blur-sm" role="status" aria-live="polite" aria-atomic="true" title="網絡連接狀態">
+                    <div id="statusBadge" class="status-badge text-sm px-4 py-2.5 rounded-full bg-white/5 text-gray-400 border border-white/10 font-semibold backdrop-blur-sm" role="status" aria-live="polite" aria-atomic="true" title="網絡連接狀態">
                         連線中...
                     </div>
                 </div>
-                <div class="flex items-center gap-2.5 text-xs">
-                    <span class="text-gray-500 font-medium" aria-label="當前操作人員標籤">操作人員</span>
-                    <span id="headerOperator" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-600/30 to-purple-500/20 text-purple-300 font-bold border border-purple-500/40 shadow-lg shadow-purple-500/20" aria-label="當前操作人員" role="status">黃俊瑋</span>
+                <div class="flex items-center gap-2.5 text-sm">
+                    <span class="text-gray-400 font-semibold" aria-label="當前操作人員標籤">操作人員</span>
+                    <span id="headerOperator" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600/30 to-purple-500/20 text-purple-300 font-bold border border-purple-500/40 shadow-lg shadow-purple-500/20 text-base" aria-label="當前操作人員" role="status">黃俊瑋</span>
                 </div>
             </div>
         </header>
@@ -837,38 +936,24 @@
         <!-- Dashboard 頁面 -->
         <div id="page-dashboard" class="page active">
             <div class="px-5 py-6 space-y-6">
-                <!-- 統計卡片 -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="stat-card glass rounded-3xl p-6 text-center relative">
-                        <div class="absolute top-3 right-3 text-2xl opacity-20">📊</div>
-                        <p class="stat-label text-gray-400 text-[10px] font-bold uppercase tracking-wider mb-3">總品項</p>
-                        <p id="totalItems" class="big-number text-5xl font-extrabold text-white leading-none">-</p>
-                    </div>
-                    <div class="stat-card glass rounded-3xl p-6 text-center relative">
-                        <div class="absolute top-3 right-3 text-2xl opacity-20">⚠️</div>
-                        <p class="stat-label text-gray-400 text-[10px] font-bold uppercase tracking-wider mb-3">低庫存</p>
-                        <p id="lowStock" class="big-number text-5xl font-extrabold text-yellow-400 leading-none">-</p>
-                    </div>
-                </div>
-                
                 <!-- 分類統計條 -->
                 <div class="glass rounded-3xl p-6">
                     <div class="flex items-center gap-2 mb-4">
-                        <span class="text-xl">📈</span>
-                        <h3 class="text-base font-bold text-white">分類統計</h3>
+                        <span class="text-2xl">📈</span>
+                        <h3 class="text-lg font-bold text-white">分類統計</h3>
                     </div>
-                    <div id="categoryBar" class="h-3 rounded-full bg-white/5 flex overflow-hidden mb-4"></div>
-                    <div id="categoryLegend" class="flex flex-wrap gap-4 text-xs text-gray-400"></div>
+                    <div id="categoryBar" class="h-4 rounded-full bg-white/5 flex overflow-hidden mb-4"></div>
+                    <div id="categoryLegend" class="flex flex-wrap gap-4 text-sm text-gray-300"></div>
                 </div>
                 
                 <!-- F22廠區物料清單 -->
                 <div class="glass rounded-3xl p-6">
                     <div class="flex items-center justify-between mb-5">
                         <div class="flex items-center gap-2.5">
-                            <span class="text-2xl">🏗️</span>
-                            <h3 class="text-lg font-bold text-white">F22廠區物料</h3>
+                            <span class="text-3xl">🏗️</span>
+                            <h3 class="text-xl font-bold text-white">F22廠區物料</h3>
                         </div>
-                        <span id="siteItemCount" class="text-xs px-3.5 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/30 to-cyan-400/20 text-cyan-300 font-bold border border-cyan-400/40 shadow-lg shadow-cyan-500/20">-</span>
+                        <span id="siteItemCount" class="text-sm px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/30 to-cyan-400/20 text-cyan-300 font-bold border border-cyan-400/40 shadow-lg shadow-cyan-500/20">-</span>
                     </div>
                     <div id="siteItemsList" class="space-y-2.5 max-h-96 overflow-y-auto">
                         <!-- 物料項目將在這裡動態生成 -->
@@ -885,60 +970,61 @@
         <div id="page-list" class="page">
             <div class="px-5 py-5 space-y-5">
                 <!-- 搜尋欄 -->
-                <div class="search-container glass rounded-3xl p-5" role="search">
+                <div class="search-container glass rounded-3xl p-6" role="search">
                     <label for="searchInput" class="sr-only">搜尋物料</label>
                     <div class="flex items-center gap-4">
-                        <svg class="w-6 h-6 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <svg class="w-7 h-7 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                         <input 
                             type="search" 
                             id="searchInput" 
                             placeholder="搜尋品名、規格、速記碼..." 
-                            class="search-input flex-1 bg-transparent text-white placeholder-gray-500 text-base font-semibold focus:outline-none"
+                            class="search-input flex-1 bg-transparent text-white placeholder-gray-400 text-lg font-semibold focus:outline-none"
                             autocomplete="off"
                             aria-label="搜尋物料品名或規格"
                             aria-describedby="searchHint"
                             list="searchHistory"
+                            style="font-size: 1.125rem;"
                         >
                         <datalist id="searchHistory"></datalist>
                     </div>
                     <div id="searchHint" class="sr-only">輸入關鍵字以搜尋物料</div>
-                    <div id="searchResultsCount" class="text-xs text-gray-500 mt-2 hidden"></div>
+                    <div id="searchResultsCount" class="text-sm text-gray-400 mt-3 hidden"></div>
                 </div>
                 
                 <!-- 分類標籤 -->
                 <div class="flex gap-3 overflow-x-auto pb-3 scrollbar-hide" style="-webkit-overflow-scrolling: touch;" id="categoryChips" role="tablist" aria-label="物料分類篩選">
-                    <button class="cat-chip active px-6 py-3 rounded-full text-sm font-bold bg-white/5 text-gray-300 border border-white/10" data-cat="all" role="tab" aria-selected="true" aria-controls="inventoryList" tabindex="0">
+                    <button class="cat-chip active px-7 py-3.5 rounded-full text-base font-bold bg-white/5 text-gray-200 border border-white/10" data-cat="all" role="tab" aria-selected="true" aria-controls="inventoryList" tabindex="0">
                         <span>全部</span>
                     </button>
-                    <button class="cat-chip px-6 py-3 rounded-full text-sm font-bold bg-white/5 text-gray-300 border border-white/10" data-cat="wire" role="tab" aria-selected="false" aria-controls="inventoryList" tabindex="-1">
+                    <button class="cat-chip px-7 py-3.5 rounded-full text-base font-bold bg-white/5 text-gray-200 border border-white/10" data-cat="wire" role="tab" aria-selected="false" aria-controls="inventoryList" tabindex="-1">
                         <span>🔌 電線</span>
                     </button>
-                    <button class="cat-chip px-6 py-3 rounded-full text-sm font-bold bg-white/5 text-gray-300 border border-white/10" data-cat="terminal" role="tab" aria-selected="false" aria-controls="inventoryList" tabindex="-1">
+                    <button class="cat-chip px-7 py-3.5 rounded-full text-base font-bold bg-white/5 text-gray-200 border border-white/10" data-cat="terminal" role="tab" aria-selected="false" aria-controls="inventoryList" tabindex="-1">
                         <span>🔗 端子</span>
                     </button>
-                    <button class="cat-chip px-6 py-3 rounded-full text-sm font-bold bg-white/5 text-gray-300 border border-white/10" data-cat="consumable" role="tab" aria-selected="false" aria-controls="inventoryList" tabindex="-1">
+                    <button class="cat-chip px-7 py-3.5 rounded-full text-base font-bold bg-white/5 text-gray-200 border border-white/10" data-cat="consumable" role="tab" aria-selected="false" aria-controls="inventoryList" tabindex="-1">
                         <span>📦 耗材</span>
                     </button>
-                    <button class="cat-chip px-6 py-3 rounded-full text-sm font-bold bg-white/5 text-gray-300 border border-white/10" data-cat="pipe" role="tab" aria-selected="false" aria-controls="inventoryList" tabindex="-1">
+                    <button class="cat-chip px-7 py-3.5 rounded-full text-base font-bold bg-white/5 text-gray-200 border border-white/10" data-cat="pipe" role="tab" aria-selected="false" aria-controls="inventoryList" tabindex="-1">
                         <span>🔩 管材</span>
                     </button>
-                    <button class="cat-chip px-6 py-3 rounded-full text-sm font-bold bg-white/5 text-gray-300 border border-white/10" data-cat="hardware" role="tab" aria-selected="false" aria-controls="inventoryList" tabindex="-1">
+                    <button class="cat-chip px-7 py-3.5 rounded-full text-base font-bold bg-white/5 text-gray-200 border border-white/10" data-cat="hardware" role="tab" aria-selected="false" aria-controls="inventoryList" tabindex="-1">
                         <span>🔧 五金</span>
                     </button>
                 </div>
                 
                 <!-- 批量操作欄 -->
-                <div id="batchActions" class="hidden glass rounded-2xl p-4 mb-4">
+                <div id="batchActions" class="hidden glass rounded-2xl p-5 mb-4">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
-                            <span class="text-sm font-bold text-white">已選擇 <span id="selectedCount">0</span> 項</span>
-                            <button onclick="clearSelection()" class="text-xs text-gray-400 hover:text-white">清除</button>
+                            <span class="text-base font-bold text-white">已選擇 <span id="selectedCount">0</span> 項</span>
+                            <button onclick="clearSelection()" class="text-sm text-gray-300 hover:text-white font-semibold">清除</button>
                         </div>
                         <div class="flex gap-2">
-                            <button onclick="batchAdjust('w', 1)" class="btn-interactive px-4 py-2 rounded-xl bg-purple-600/20 text-purple-300 text-sm font-bold border border-purple-500/40">公司倉 +1</button>
-                            <button onclick="batchAdjust('s', 1)" class="btn-interactive px-4 py-2 rounded-xl bg-cyan-600/20 text-cyan-300 text-sm font-bold border border-cyan-500/40">F22廠區 +1</button>
+                            <button onclick="batchAdjust('w', 1)" class="btn-interactive px-5 py-2.5 rounded-xl bg-purple-600/20 text-purple-300 text-base font-bold border border-purple-500/40">公司倉 +1</button>
+                            <button onclick="batchAdjust('s', 1)" class="btn-interactive px-5 py-2.5 rounded-xl bg-cyan-600/20 text-cyan-300 text-base font-bold border border-cyan-500/40">F22廠區 +1</button>
                         </div>
                     </div>
                 </div>
@@ -1105,7 +1191,8 @@
             isOnline: navigator.onLine, // 網絡狀態
             selectedItems: [], // 批量選擇的物料
             searchHistory: [], // 搜索歷史
-            operationHistory: [] // 操作歷史（本地緩存）
+            operationHistory: [], // 操作歷史（本地緩存）
+            editingNumber: null // 當前正在編輯的數字（防止重複編輯）
         };
         
         // 操作人員清單
@@ -1118,8 +1205,6 @@
 
         function initDOM() {
             el.statusBadge = $('statusBadge');
-            el.totalItems = $('totalItems');
-            el.lowStock = $('lowStock');
             el.searchInput = $('searchInput');
             el.exportBtn = $('exportBtn');
             el.refreshBtn = $('refreshBtn');
@@ -1170,6 +1255,32 @@
                     func.apply(context, args);
                 }, delay);
             };
+        }
+        
+        // 優化：統一的物料查找函數
+        function findItemById(id) {
+            if (state.currentItem && state.currentItem.id == id) {
+                return state.currentItem;
+            }
+            for (var i = 0; i < state.stock.length; i++) {
+                if (state.stock[i].id == id) {
+                    return state.stock[i];
+                }
+            }
+            return null;
+        }
+        
+        // 優化：統一的 UI 更新函數
+        function updateNumberDisplay(id, type, value, isBottomSheet) {
+            var elementId = (isBottomSheet ? 'bs-' : '') + (type === 'w' ? 'w-' : 's-') + id;
+            var el = document.getElementById(elementId);
+            if (el && el.tagName !== 'INPUT') {
+                el.textContent = value;
+                el.classList.add('number-update');
+                setTimeout(function() { 
+                    if (el) el.classList.remove('number-update'); 
+                }, 400);
+            }
         }
 
         // ===== 分類邏輯 - 優化 =====
@@ -1369,8 +1480,16 @@
         }
 
         function updateDashboard() {
-            el.totalItems.textContent = state.stock.length;
-            el.settingsItemCount.textContent = state.stock.length;
+            var totalItems = state.stock.length;
+            el.settingsItemCount.textContent = totalItems;
+            
+            // 同時更新 Header 中的數字
+            var headerTotal = document.getElementById('headerTotalItems');
+            if (headerTotal) {
+                headerTotal.textContent = totalItems;
+                headerTotal.classList.add('number-update');
+                setTimeout(function() { headerTotal.classList.remove('number-update'); }, 400);
+            }
             
             var lowCount = 0;
             var categoryCounts = {};
@@ -1394,7 +1513,29 @@
                 totalQty += total;
             }
             
-            el.lowStock.textContent = lowCount;
+            // 同時更新 Header 中的低庫存數字
+            var headerLowStock = document.getElementById('headerLowStock');
+            if (headerLowStock) {
+                headerLowStock.textContent = lowCount;
+                headerLowStock.classList.add('number-update');
+                setTimeout(function() { headerLowStock.classList.remove('number-update'); }, 400);
+            }
+            
+            // 計算F22廠區物料數量
+            var siteItemsCount = 0;
+            for (var i = 0; i < state.stock.length; i++) {
+                if (safeNum(state.stock[i].siteQty) > 0) {
+                    siteItemsCount++;
+                }
+            }
+            
+            // 更新 Header 中的F22廠區數字
+            var headerSiteItems = document.getElementById('headerSiteItems');
+            if (headerSiteItems) {
+                headerSiteItems.textContent = siteItemsCount;
+                headerSiteItems.classList.add('number-update');
+                setTimeout(function() { headerSiteItems.classList.remove('number-update'); }, 400);
+            }
             
             // 更新分類條
             if (totalQty === 0) totalQty = 1;
@@ -1457,17 +1598,17 @@
                 var cat = getCategory(item);
                 var icon = getCategoryIcon(cat);
                 
-                html += '<div class="site-item flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 cursor-pointer" onclick="openBottomSheet(\'' + escapeHtml(id) + '\')" style="animation-delay: ' + (i * 0.05) + 's">' +
-                    '<div class="flex items-center gap-3.5 flex-1 min-w-0">' +
-                        '<span class="text-2xl flex-shrink-0">' + icon + '</span>' +
+                html += '<div class="site-item flex items-center justify-between p-5 rounded-2xl bg-white/5 border border-white/5 cursor-pointer" onclick="openBottomSheet(\'' + escapeHtml(id) + '\')" style="animation-delay: ' + (i * 0.05) + 's">' +
+                    '<div class="flex items-center gap-4 flex-1 min-w-0">' +
+                        '<span class="text-3xl flex-shrink-0">' + icon + '</span>' +
                         '<div class="flex-1 min-w-0">' +
-                            '<p class="text-sm font-bold text-white truncate mb-0.5">' + escapeHtml(name) + '</p>' +
-                            '<p class="text-xs text-gray-500 truncate font-medium">' + escapeHtml(spec) + '</p>' +
+                            '<p class="text-base font-bold text-white truncate mb-1">' + escapeHtml(name) + '</p>' +
+                            '<p class="text-sm text-gray-300 truncate font-medium">' + escapeHtml(spec) + '</p>' +
                         '</div>' +
                     '</div>' +
                     '<div class="text-right flex-shrink-0 ml-4">' +
-                        '<p class="big-number text-3xl font-extrabold text-cyan-400 leading-none">' + sQty + '</p>' +
-                        '<p class="text-[10px] text-gray-500 font-bold mt-1">件</p>' +
+                        '<p class="big-number text-4xl font-extrabold text-cyan-400 leading-none">' + sQty + '</p>' +
+                        '<p class="text-xs text-gray-400 font-bold mt-1.5">件</p>' +
                     '</div>' +
                 '</div>';
             }
@@ -1500,7 +1641,7 @@
             el.inventoryList.appendChild(fragment);
         }
 
-    function renderItem(item, idx) {
+        function renderItem(item, idx) {
             var id = safeStr(item.id, idx);
             var name = safeStr(item.name, '未命名');
             var spec = safeStr(item.spec, '-');
@@ -1523,60 +1664,57 @@
             
             var cat = getCategory(item);
             var icon = getCategoryIcon(cat);
-
-            // --- 新增：處理規格文字的顯示邏輯 ---
-            // 這段會把 "黑色" 這種中文字包在較小的 span 裡面
-            var formattedSpec = escapeHtml(spec).replace(/([\u4e00-\u9fa5]+)/g, function(match) {
-                // 中文字設定：字體較小 (text-lg)、透明度降低 (opacity-80)
-                return '<span class="text-lg font-bold opacity-80 ml-1 align-middle">' + match + '</span>';
-            });
-            // --------------------------------
-
-            return '<div class="card-item glass rounded-3xl p-6 gpu-accelerated list-item-enter" ' +
-                'onclick="openBottomSheet(\'' + escapeHtml(id) + '\')" ' +
-                'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){openBottomSheet(\'' + escapeHtml(id) + '\');event.preventDefault();}" ' +
+            var isSelected = state.selectedItems.indexOf(id) >= 0;
+            var selectClass = isSelected ? 'ring-2 ring-purple-500 ring-offset-2 ring-offset-black' : '';
+            
+            return '<div class="card-item glass rounded-3xl p-6 gpu-accelerated list-item-enter ' + selectClass + '" ' +
+                'onclick="handleItemClick(event, \'' + escapeHtml(id) + '\')" ' +
+                'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){handleItemClick(event, \'' + escapeHtml(id) + '\');event.preventDefault();}" ' +
                 'data-id="' + escapeHtml(id) + '" ' +
                 'role="button" ' +
                 'tabindex="0" ' +
                 'aria-label="' + escapeHtml(name) + '，規格：' + escapeHtml(spec) + '，公司倉：' + wQty + '，F22廠區：' + sQty + '，' + statusText + '" ' +
                 'style="animation-delay: ' + (idx * 0.02) + 's">' +
-                '<div class="flex items-start justify-between gap-4">' +
+                '<div class="flex items-start justify-between gap-5">' +
                     '<div class="flex-1 min-w-0">' +
-                        '<div class="flex items-center gap-3 mb-2">' +
-                            '<span class="text-3xl flex-shrink-0" aria-hidden="true">' + icon + '</span>' +
-                            
-                            '<div class="flex flex-col">' +
-                                // 品名：維持小字
-                                '<span class="text-gray-400 text-sm font-bold truncate">' + escapeHtml(name) + '</span>' +
-                                
-                                // --- 規格顯示區 ---
-                                // 主要數字維持 3xl (特大)，但透過上面的 formattedSpec 變數，中文會自動變小
-                                '<span class="text-amber-300 font-extrabold text-3xl leading-none mt-1">' + formattedSpec + '</span>' +
-                                // ----------------
-                            '</div>' +
-                            
+                        '<div class="flex items-center gap-3 mb-3">' +
+                            '<input type="checkbox" class="item-checkbox w-6 h-6 rounded border-2 border-white/20 bg-white/5 checked:bg-purple-600" ' +
+                                'onclick="event.stopPropagation();toggleItemSelection(\'' + escapeHtml(id) + '\')" ' +
+                                (isSelected ? 'checked' : '') + '>' +
+                            '<span class="text-4xl" aria-hidden="true">' + icon + '</span>' +
+                            '<h3 class="font-extrabold text-white text-xl truncate">' + escapeHtml(name) + '</h3>' +
                         '</div>' +
-                        '<p class="text-xs text-gray-400 mb-3 font-semibold">單位：<span class="unit-editable inline-block px-1 py-0.5 rounded cursor-text hover:bg-white/10 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500" contenteditable="true" data-id="' + escapeHtml(id) + '" onclick="event.stopPropagation();" onblur="saveUnit(\'' + escapeHtml(id) + '\', this.textContent)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}">' + escapeHtml(unit) + '</span></p>' +
+                        '<p class="text-sm text-gray-300 mb-4 font-semibold">' + escapeHtml(spec) + ' · ' + escapeHtml(unit) + '</p>' +
                         '<div class="stock-bar" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100" aria-label="庫存水平：' + pct.toFixed(0) + '%">' +
                             '<div class="stock-bar-fill ' + colorClass + '" style="width:' + pct + '%"></div>' +
                         '</div>' +
                     '</div>' +
-                    
-                    // 右側庫存數字 (維持大字體)
-                    '<div class="text-right flex-shrink-0 ml-2">' + 
-                        '<div class="mb-3">' +
-                            '<p class="big-number text-5xl font-extrabold text-purple-400 leading-none tracking-tight" id="w-' + escapeHtml(id) + '" aria-label="公司倉庫存">' + wQty + '</p>' +
-                            '<p class="text-[9px] text-gray-600 font-bold mt-0.5 tracking-wide uppercase">公司倉</p>' +
+                    '<div class="text-right flex-shrink-0">' +
+                        '<div class="mb-4">' +
+                            '<p class="big-number editable-number text-5xl font-extrabold text-purple-400 leading-none" id="w-' + escapeHtml(id) + '" aria-label="公司倉庫存，雙擊可編輯" ondblclick="editNumber(\'' + escapeHtml(id) + '\', \'w\')" title="雙擊編輯">' + wQty + '</p>' +
+                            '<p class="text-xs text-gray-400 font-bold mt-2 tracking-wide">公司倉</p>' +
                         '</div>' +
                         '<div>' +
-                            '<p class="big-number text-5xl font-extrabold text-cyan-400 leading-none tracking-tight" id="s-' + escapeHtml(id) + '" aria-label="F22廠區庫存">' + sQty + '</p>' +
-                            '<p class="text-[9px] text-gray-600 font-bold mt-0.5 tracking-wide uppercase">F22廠區</p>' +
+                            '<p class="big-number editable-number text-5xl font-extrabold text-cyan-400 leading-none" id="s-' + escapeHtml(id) + '" aria-label="F22廠區庫存，雙擊可編輯" ondblclick="editNumber(\'' + escapeHtml(id) + '\', \'s\')" title="雙擊編輯">' + sQty + '</p>' +
+                            '<p class="text-xs text-gray-400 font-bold mt-2 tracking-wide">F22廠區</p>' +
                         '</div>' +
                     '</div>' +
-                    
                 '</div>' +
             '</div>';
         }
+        
+        // 處理物料點擊（支持批量選擇）
+        function handleItemClick(event, id) {
+            // 如果按住 Ctrl/Cmd，切換選擇狀態
+            if (event.ctrlKey || event.metaKey) {
+                event.preventDefault();
+                toggleItemSelection(id);
+                return;
+            }
+            // 否則打開盤點視窗
+            openBottomSheet(id);
+        }
+        
         // 切換物料選擇狀態
         function toggleItemSelection(id) {
             var index = state.selectedItems.indexOf(id);
@@ -1626,37 +1764,37 @@
             var failCount = 0;
             
             state.selectedItems.forEach(function(id) {
-                var item = null;
-                for (var i = 0; i < state.stock.length; i++) {
-                    if (state.stock[i].id == id) {
-                        item = state.stock[i];
-                        break;
-                    }
-                }
+                var item = findItemById(id);
                 if (!item) {
                     failCount++;
                     return;
                 }
                 
-                state.currentItem = item;
-                adjustQty(type, delta);
+                var isW = type === 'w';
+                var oldQty = isW ? item.warehouseQty : item.siteQty;
+                var newQty = Math.max(0, oldQty + delta);
+                
+                // 驗證範圍
+                if (newQty > 99999) {
+                    failCount++;
+                    return;
+                }
+                
+                // 使用統一的更新函數
+                updateQty(id, type, newQty, oldQty, item);
                 successCount++;
             });
             
-            state.currentItem = null;
             clearSelection();
             toast('已批量調整 ' + successCount + ' 個物料' + (failCount > 0 ? '，' + failCount + ' 個失敗' : ''), successCount > 0 ? 'success' : 'error');
         }
 
         function openBottomSheet(id) {
-            var item = null;
-            for (var i = 0; i < state.stock.length; i++) {
-                if (state.stock[i].id == id) { 
-                    item = state.stock[i]; 
-                    break; 
-                }
+            var item = findItemById(id);
+            if (!item) {
+                toast('找不到該物料', 'error');
+                return;
             }
-            if (!item) return;
             
             state.currentItem = item;
             var wQty = safeNum(item.warehouseQty);
@@ -1668,8 +1806,8 @@
                 var op = OPERATORS[i];
                 var isActive = (op === state.currentOperator);
                 var activeClass = isActive ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white border-purple-400/50 shadow-lg shadow-purple-500/30' : 'bg-white/5 text-gray-300 border-white/10';
-                operatorButtons += '<button onclick="setOperator(\'' + escapeHtml(op) + '\')" ' +
-                    'class="operator-btn btn-interactive px-5 py-3 rounded-2xl text-sm font-bold border-2 transition-all ' + activeClass + '" ' +
+                operatorButtons += '<button onclick="setOperator(\'' + escapeHtml(op) + '\")" ' +
+                    'class="operator-btn btn-interactive px-6 py-3.5 rounded-2xl text-base font-bold border-2 transition-all ' + activeClass + '" ' +
                     'data-operator="' + escapeHtml(op) + '" ' +
                     'aria-label="選擇操作人員 ' + escapeHtml(op) + '" ' +
                     'aria-pressed="' + (isActive ? 'true' : 'false') + '">' +
@@ -1679,37 +1817,37 @@
             
             el.bottomSheetContent.innerHTML = 
                 '<div class="mb-8">' +
-                    '<h2 id="bottomSheetTitle" class="text-3xl font-extrabold text-white mb-3 leading-tight">' + escapeHtml(item.name) + '</h2>' +
-                    '<p class="text-sm text-gray-400 font-semibold">' + escapeHtml(item.spec) + ' · <span class="unit-editable inline-block px-1 py-0.5 rounded cursor-text hover:bg-white/10 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500" contenteditable="true" data-id="' + escapeHtml(id) + '" onclick="event.stopPropagation();" onblur="saveUnit(\'' + escapeHtml(id) + '\', this.textContent)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}">' + escapeHtml(item.unit) + '</span></p>' +
+                    '<h2 id="bottomSheetTitle" class="text-4xl font-extrabold text-white mb-4 leading-tight">' + escapeHtml(item.name) + '</h2>' +
+                    '<p class="text-base text-gray-300 font-semibold">' + escapeHtml(item.spec) + ' · ' + escapeHtml(item.unit) + '</p>' +
                 '</div>' +
-                '<div class="glass rounded-3xl p-5 mb-6">' +
+                '<div class="glass rounded-3xl p-6 mb-6">' +
                     '<div class="flex items-center gap-2.5 mb-4">' +
-                        '<span class="text-xl" aria-hidden="true">👤</span>' +
-                        '<p class="text-xs text-gray-400 font-bold uppercase tracking-wider">操作人員</p>' +
+                        '<span class="text-2xl" aria-hidden="true">👤</span>' +
+                        '<p class="text-sm text-gray-300 font-bold uppercase tracking-wider">操作人員</p>' +
                     '</div>' +
                     '<div class="flex gap-3" role="group" aria-label="選擇操作人員">' + operatorButtons + '</div>' +
                 '</div>' +
                 '<div class="space-y-6">' +
                     '<div class="glass-strong rounded-3xl p-6 relative overflow-hidden">' +
                         '<div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl" aria-hidden="true"></div>' +
-                        '<p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-5 relative z-10">公司倉庫存</p>' +
+                        '<p class="text-sm text-gray-300 font-bold uppercase tracking-wider mb-5 relative z-10">公司倉庫存</p>' +
                         '<div class="flex items-center justify-between gap-5 relative z-10" role="group" aria-label="調整公司倉庫存">' +
-                            '<button onclick="adjustQty(\'w\', -1)" class="btn-interactive w-16 h-16 rounded-3xl bg-red-600/20 text-red-400 flex items-center justify-center text-3xl font-extrabold border-2 border-red-600/40 shadow-lg shadow-red-600/20" aria-label="減少公司倉庫存">−</button>' +
+                            '<button onclick="adjustQty(\'w\', -1)" class="btn-interactive w-20 h-20 rounded-3xl bg-red-600/20 text-red-400 flex items-center justify-center text-4xl font-extrabold border-2 border-red-600/40 shadow-lg shadow-red-600/20" aria-label="減少公司倉庫存">−</button>' +
                             '<div class="text-center flex-1">' +
-                                '<p class="big-number text-6xl font-extrabold text-purple-400 leading-none" id="bs-w-' + id + '" aria-live="polite" aria-atomic="true">' + wQty + '</p>' +
+                                '<p class="big-number editable-number text-7xl font-extrabold text-purple-400 leading-none" id="bs-w-' + id + '" aria-live="polite" aria-atomic="true" aria-label="公司倉庫存，雙擊可編輯" ondblclick="editNumber(\'' + id + '\', \'w\', true)" title="雙擊編輯">' + wQty + '</p>' +
                             '</div>' +
-                            '<button onclick="adjustQty(\'w\', 1)" class="btn-interactive w-16 h-16 rounded-3xl bg-green-600/20 text-green-400 flex items-center justify-center text-3xl font-extrabold border-2 border-green-600/40 shadow-lg shadow-green-600/20" aria-label="增加公司倉庫存">+</button>' +
+                            '<button onclick="adjustQty(\'w\', 1)" class="btn-interactive w-20 h-20 rounded-3xl bg-green-600/20 text-green-400 flex items-center justify-center text-4xl font-extrabold border-2 border-green-600/40 shadow-lg shadow-green-600/20" aria-label="增加公司倉庫存">+</button>' +
                         '</div>' +
                     '</div>' +
                     '<div class="glass-strong rounded-3xl p-6 relative overflow-hidden">' +
                         '<div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl" aria-hidden="true"></div>' +
-                        '<p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-5 relative z-10">F22廠區庫存</p>' +
+                        '<p class="text-sm text-gray-300 font-bold uppercase tracking-wider mb-5 relative z-10">F22廠區庫存</p>' +
                         '<div class="flex items-center justify-between gap-5 relative z-10" role="group" aria-label="調整F22廠區庫存">' +
-                            '<button onclick="adjustQty(\'s\', -1)" class="btn-interactive w-16 h-16 rounded-3xl bg-red-600/20 text-red-400 flex items-center justify-center text-3xl font-extrabold border-2 border-red-600/40 shadow-lg shadow-red-600/20" aria-label="減少F22廠區庫存">−</button>' +
+                            '<button onclick="adjustQty(\'s\', -1)" class="btn-interactive w-20 h-20 rounded-3xl bg-red-600/20 text-red-400 flex items-center justify-center text-4xl font-extrabold border-2 border-red-600/40 shadow-lg shadow-red-600/20" aria-label="減少F22廠區庫存">−</button>' +
                             '<div class="text-center flex-1">' +
-                                '<p class="big-number text-6xl font-extrabold text-cyan-400 leading-none" id="bs-s-' + id + '" aria-live="polite" aria-atomic="true">' + sQty + '</p>' +
+                                '<p class="big-number editable-number text-7xl font-extrabold text-cyan-400 leading-none" id="bs-s-' + id + '" aria-live="polite" aria-atomic="true" aria-label="F22廠區庫存，雙擊可編輯" ondblclick="editNumber(\'' + id + '\', \'s\', true)" title="雙擊編輯">' + sQty + '</p>' +
                             '</div>' +
-                            '<button onclick="adjustQty(\'s\', 1)" class="btn-interactive w-16 h-16 rounded-3xl bg-green-600/20 text-green-400 flex items-center justify-center text-3xl font-extrabold border-2 border-green-600/40 shadow-lg shadow-green-600/20" aria-label="增加F22廠區庫存">+</button>' +
+                            '<button onclick="adjustQty(\'s\', 1)" class="btn-interactive w-20 h-20 rounded-3xl bg-green-600/20 text-green-400 flex items-center justify-center text-4xl font-extrabold border-2 border-green-600/40 shadow-lg shadow-green-600/20" aria-label="增加F22廠區庫存">+</button>' +
                         '</div>' +
                     '</div>' +
                 '</div>';
@@ -1741,10 +1879,10 @@
             var buttons = document.querySelectorAll('.operator-btn');
             buttons.forEach(function(btn) {
                 if (btn.getAttribute('data-operator') === operator) {
-                    btn.className = 'operator-btn btn-interactive px-5 py-3 rounded-2xl text-sm font-bold border-2 transition-all bg-gradient-to-r from-purple-600 to-purple-500 text-white border-purple-400/50 shadow-lg shadow-purple-500/30';
+                    btn.className = 'operator-btn btn-interactive px-6 py-3.5 rounded-2xl text-base font-bold border-2 transition-all bg-gradient-to-r from-purple-600 to-purple-500 text-white border-purple-400/50 shadow-lg shadow-purple-500/30';
                     btn.setAttribute('aria-pressed', 'true');
                 } else {
-                    btn.className = 'operator-btn btn-interactive px-5 py-3 rounded-2xl text-sm font-bold border-2 transition-all bg-white/5 text-gray-300 border-white/10';
+                    btn.className = 'operator-btn btn-interactive px-6 py-3.5 rounded-2xl text-base font-bold border-2 transition-all bg-white/5 text-gray-300 border-white/10';
                     btn.setAttribute('aria-pressed', 'false');
                 }
             });
@@ -1783,6 +1921,86 @@
             state.currentItem = null;
         }
 
+        // ===== 統一的數量更新函數 =====
+        function updateQty(id, type, newQty, oldQty, item) {
+            // 如果沒有提供 item，從 state.stock 中查找
+            if (!item) {
+                item = findItemById(id);
+            }
+            if (!item) {
+                toast('找不到該物料', 'error');
+                return;
+            }
+            
+            var isW = type === 'w';
+            
+            // 更新本地狀態
+            if (isW) {
+                item.warehouseQty = newQty;
+            } else {
+                item.siteQty = newQty;
+            }
+            
+            // 更新 UI（使用工具函數）
+            updateNumberDisplay(id, type, newQty, false); // 列表頁
+            updateNumberDisplay(id, type, newQty, true);  // Bottom Sheet
+            
+            // 防抖更新後端
+            var key = id + '-' + type;
+            if (state.updateTimers[key]) {
+                clearTimeout(state.updateTimers[key]);
+            }
+            
+            // 保存待同步的操作（用於錯誤恢復）
+            state.pendingUpdates[key] = {
+                id: id,
+                type: type,
+                oldQty: oldQty,
+                newQty: newQty,
+                operator: state.currentOperator
+            };
+            
+            state.updateTimers[key] = setTimeout(function() {
+                var action = isW ? 'warehouse_audit' : 'audit';
+                postAPI(action, { 
+                    id: id, 
+                    qty: newQty, 
+                    person: state.currentOperator 
+                })
+                    .then(function() { 
+                        toast('✅ 已同步 (' + state.currentOperator + ')', 'success');
+                        // 記錄操作歷史
+                        recordOperation(action, item.name, oldQty, newQty, type);
+                        updateDashboard();
+                        // 清除待同步記錄
+                        delete state.pendingUpdates[key];
+                    })
+                    .catch(function(e) { 
+                        // 錯誤恢復：恢復到原始值
+                        if (isW) {
+                            item.warehouseQty = oldQty;
+                        } else {
+                            item.siteQty = oldQty;
+                        }
+                        
+                        // 恢復 UI
+                        if (listEl) listEl.textContent = oldQty;
+                        if (sheetEl) sheetEl.textContent = oldQty;
+                        
+                        // 清除待同步記錄
+                        delete state.pendingUpdates[key];
+                        
+                        toast('❌ 同步失敗，已恢復原值: ' + e.message, 'error');
+                        updateDashboard();
+                    });
+                
+                delete state.updateTimers[key];
+            }, DEBOUNCE_DELAY);
+            
+            // 即時回饋
+            updateDashboard();
+        }
+        
         function adjustQty(type, delta) {
             if (!state.currentItem) return;
             
@@ -1815,144 +2033,147 @@
                 }
             }
             
-            // 更新本地狀態
-            if (isW) {
-                state.currentItem.warehouseQty = newQty;
-            } else {
-                state.currentItem.siteQty = newQty;
-            }
-            
-            // 更新 UI
-            var listEl = document.getElementById((isW ? 'w-' : 's-') + id);
-            var sheetEl = document.getElementById((isW ? 'bs-w-' : 'bs-s-') + id);
-            if (listEl) {
-                listEl.textContent = newQty;
-                listEl.classList.add('number-update');
-                setTimeout(function() { listEl.classList.remove('number-update'); }, 400);
-            }
-            if (sheetEl) {
-                sheetEl.textContent = newQty;
-                sheetEl.classList.add('number-update');
-                setTimeout(function() { sheetEl.classList.remove('number-update'); }, 400);
-            }
-            
-            // 防抖更新後端
-            var key = id + '-' + type;
-            if (state.updateTimers[key]) {
-                clearTimeout(state.updateTimers[key]);
-            }
-            
-            // 保存待同步的操作（用於錯誤恢復）
-            state.pendingUpdates[key] = {
-                id: id,
-                type: type,
-                oldQty: oldQty,
-                newQty: newQty,
-                operator: state.currentOperator
-            };
-            
-            state.updateTimers[key] = setTimeout(function() {
-                var action = isW ? 'warehouse_audit' : 'audit';
-                postAPI(action, { 
-                    id: id, 
-                    qty: newQty, 
-                    person: state.currentOperator 
-                })
-                    .then(function() { 
-                        toast('✅ 已同步 (' + state.currentOperator + ')', 'success');
-                        // 記錄操作歷史
-                        recordOperation(action, state.currentItem.name, oldQty, newQty, type);
-                        updateDashboard();
-                        // 清除待同步記錄
-                        delete state.pendingUpdates[key];
-                    })
-                    .catch(function(e) { 
-                        // 錯誤恢復：恢復到原始值
-                        if (isW) {
-                            state.currentItem.warehouseQty = oldQty;
-                        } else {
-                            state.currentItem.siteQty = oldQty;
-                        }
-                        
-                        // 恢復 UI
-                        if (listEl) listEl.textContent = oldQty;
-                        if (sheetEl) sheetEl.textContent = oldQty;
-                        
-                        // 清除待同步記錄
-                        delete state.pendingUpdates[key];
-                        
-                        toast('❌ 同步失敗，已恢復原值: ' + e.message, 'error');
-                        updateDashboard();
-                    });
-                
-                delete state.updateTimers[key];
-            }, DEBOUNCE_DELAY);
-            
-            // 即時回饋
-            updateDashboard();
+            // 使用統一的更新函數
+            updateQty(id, type, newQty, oldQty, state.currentItem);
         }
-
-        // ===== 保存單位 =====
-        function saveUnit(id, newUnit) {
-            newUnit = (newUnit || '').trim();
-            if (!newUnit) {
-                toast('單位不能為空', 'warning');
-                // 恢復原值
-                var item = null;
-                for (var i = 0; i < state.stock.length; i++) {
-                    if (state.stock[i].id == id) {
-                        item = state.stock[i];
-                        break;
-                    }
-                }
-                if (item) {
-                    var unitEl = document.querySelector('.unit-editable[data-id="' + id + '"]');
-                    if (unitEl) unitEl.textContent = item.unit || '個';
-                }
+        
+        // ===== 直接編輯數字 =====
+        function editNumber(id, type, isBottomSheet) {
+            // 防止重複編輯
+            var editKey = id + '-' + type + '-' + (isBottomSheet ? 'bs' : 'list');
+            if (state.editingNumber === editKey) return;
+            
+            // 查找物料
+            var item = findItemById(id);
+            if (!item) {
+                toast('找不到該物料', 'error');
                 return;
             }
             
-            // 查找項目
-            var item = null;
-            for (var i = 0; i < state.stock.length; i++) {
-                if (state.stock[i].id == id) {
-                    item = state.stock[i];
-                    break;
+            var isW = type === 'w';
+            var currentQty = isW ? item.warehouseQty : item.siteQty;
+            var elementId = (isBottomSheet ? 'bs-' : '') + (isW ? 'w-' : 's-') + id;
+            var el = document.getElementById(elementId);
+            if (!el || el.tagName === 'INPUT') return;
+            
+            // 標記正在編輯
+            state.editingNumber = editKey;
+            
+            // 保存原始值
+            var oldQty = currentQty;
+            var originalClass = el.className;
+            var originalStyle = el.getAttribute('style') || '';
+            var originalAttrs = {
+                'aria-live': el.getAttribute('aria-live'),
+                'aria-atomic': el.getAttribute('aria-atomic'),
+                'aria-label': el.getAttribute('aria-label'),
+                'title': el.getAttribute('title'),
+                'ondblclick': el.getAttribute('ondblclick')
+            };
+            
+            // 創建輸入框
+            var input = document.createElement('input');
+            input.type = 'number';
+            input.min = '0';
+            input.max = '99999';
+            input.step = '1';
+            input.value = currentQty;
+            input.className = 'editable-number-input big-number font-extrabold text-center';
+            input.style.cssText = 'width: 100%; max-width: 300px; margin: 0 auto; display: block;';
+            // 根據類型設置顏色和字體大小
+            if (isBottomSheet) {
+                input.style.fontSize = '4rem';
+                input.style.lineHeight = '1';
+            } else {
+                input.style.fontSize = '2.5rem';
+                input.style.lineHeight = '1';
+            }
+            if (isW) {
+                input.style.color = '#a78bfa';
+            } else {
+                input.style.color = '#67e8f9';
+            }
+            input.setAttribute('aria-label', (isW ? '公司倉' : 'F22廠區') + '庫存輸入');
+            
+            // 替換元素
+            var parent = el.parentNode;
+            parent.replaceChild(input, el);
+            input.focus();
+            input.select();
+            
+            // 處理輸入完成
+            function finishEdit() {
+                if (state.editingNumber !== editKey) return; // 防止重複執行
+                
+                var inputValue = parseInt(input.value, 10);
+                
+                // 驗證輸入
+                if (isNaN(inputValue) || inputValue < 0) {
+                    inputValue = 0;
                 }
-            }
-            if (!item) return;
-            
-            // 如果沒有變化，不保存
-            if (item.unit === newUnit) return;
-            
-            var oldUnit = item.unit;
-            item.unit = newUnit;
-            
-            // 更新底部視窗中的單位顯示（如果打開）
-            if (state.currentItem && state.currentItem.id == id) {
-                state.currentItem.unit = newUnit;
-            }
-            
-            // 更新列表中的所有單位顯示
-            var allUnitEls = document.querySelectorAll('.unit-editable[data-id="' + id + '"]');
-            for (var j = 0; j < allUnitEls.length; j++) {
-                if (allUnitEls[j].textContent.trim() !== newUnit) {
-                    allUnitEls[j].textContent = newUnit;
+                if (inputValue > 99999) {
+                    toast('數量不能超過 99999', 'warning');
+                    inputValue = 99999;
                 }
+                
+                // 如果值改變了，需要確認
+                if (inputValue !== oldQty) {
+                    var delta = inputValue - oldQty;
+                    if (delta < -10 || (delta < 0 && inputValue === 0)) {
+                        var confirmMsg = delta < -10 
+                            ? '確定要減少 ' + Math.abs(delta) + ' 件嗎？\n\n' + item.name
+                            : '確定要將數量調整為 0 嗎？\n\n' + item.name;
+                        
+                        if (!confirm(confirmMsg)) {
+                            // 取消：恢復原值
+                            restoreElement();
+                            return;
+                        }
+                    }
+                    
+                    // 更新數量
+                    if (isBottomSheet && !state.currentItem) {
+                        state.currentItem = item;
+                    }
+                    updateQty(id, type, inputValue, oldQty, item);
+                }
+                
+                // 恢復顯示
+                restoreElement();
             }
             
-            // 發送到後端
-            postAPI('update_unit', { id: id, unit: newUnit })
-                .then(function() {
-                    toast('✅ 單位已更新', 'success');
-                })
-                .catch(function(e) {
-                    // 恢復原值
-                    item.unit = oldUnit;
-                    var unitEl = document.querySelector('.unit-editable[data-id="' + id + '"]');
-                    if (unitEl) unitEl.textContent = oldUnit || '個';
-                    toast('❌ 更新失敗: ' + e.message, 'error');
-                });
+            function restoreElement() {
+                state.editingNumber = null;
+                
+                // 恢復原始元素
+                var newEl = document.createElement('p');
+                newEl.id = elementId;
+                newEl.className = originalClass;
+                newEl.textContent = (isW ? item.warehouseQty : item.siteQty);
+                
+                // 恢復屬性
+                for (var key in originalAttrs) {
+                    if (originalAttrs[key]) {
+                        newEl.setAttribute(key, originalAttrs[key]);
+                    }
+                }
+                
+                if (originalStyle) newEl.setAttribute('style', originalStyle);
+                
+                parent.replaceChild(newEl, input);
+            }
+            
+            // 綁定事件
+            input.addEventListener('blur', finishEdit);
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    finishEdit();
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    restoreElement();
+                }
+            });
         }
 
         // ===== 篩選 =====
@@ -2229,6 +2450,19 @@
 
         // ===== 事件綁定 =====
         function bindEvents() {
+            // 網絡狀態監聽
+            window.addEventListener('online', function() {
+                state.isOnline = true;
+                setStatus('online', '線上');
+                toast('網絡已連接', 'success');
+            });
+            
+            window.addEventListener('offline', function() {
+                state.isOnline = false;
+                setStatus('error', '離線');
+                toast('網絡已斷開，操作將在連線後同步', 'warning');
+            });
+            
             // 搜尋
             el.searchInput.addEventListener('input', function(e) {
                 state.searchText = e.target.value;
@@ -2312,8 +2546,12 @@
         window.adjustQty = adjustQty;
         window.setOperator = setOperator;
         window.setOperatorGlobal = setOperatorGlobal;
-        window.saveUnit = saveUnit;
+        window.editNumber = editNumber;
         window.installPWA = installPWA;
+        window.handleItemClick = handleItemClick;
+        window.toggleItemSelection = toggleItemSelection;
+        window.clearSelection = clearSelection;
+        window.batchAdjust = batchAdjust;
 
         // ===== PWA Service Worker 註冊 =====
         if ('serviceWorker' in navigator) {
@@ -2568,3 +2806,4 @@
 
 </body>
 </html>
+
