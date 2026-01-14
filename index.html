@@ -12,15 +12,19 @@
     <meta name="apple-mobile-web-app-title" content="物料戰情室">
     <meta name="description" content="工程物料庫存管理系統 - 即時盤點、追蹤、統計">
     <meta name="keywords" content="物料管理,庫存系統,盤點,工程管理">
-    <title>物料戰情室 v19.2 - 工程物料庫存管理系統</title>
+    <title>物料戰情室 v19.1 - 工程物料庫存管理系統</title>
     
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="icon-192.png">
     <link rel="shortcut icon" type="image/png" href="icon-192.png">
     
+    <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     
+    <!-- iOS Safari PWA Icons -->
     <link rel="apple-touch-icon" href="icon-192.png">
     
+    <!-- PWA Theme -->
     <meta name="mobile-web-app-capable" content="yes">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -80,7 +84,9 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             line-height: 1.6;
-            color: #f5f5f5;
+            /* WCAG AA 對比度優化 */
+            color: #f5f5f5; /* 提升對比度 */
+            /* 增大基礎字體提升易讀性 */
             font-size: 16px;
         }
         
@@ -90,6 +96,7 @@
             }
         }
         
+        /* 確保最小觸摸目標 44x44px (WCAG 2.5.5) */
         button, a, [role="button"], .clickable {
             min-width: 44px;
             min-height: 44px;
@@ -98,12 +105,14 @@
             justify-content: center;
         }
         
+        /* 鍵盤導航優化 (WCAG 2.1.1) */
         *:focus-visible {
             outline: 3px solid #8b5cf6;
             outline-offset: 2px;
             border-radius: 4px;
         }
         
+        /* 減少動畫 (WCAG 2.3.3) */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -112,6 +121,7 @@
             }
         }
         
+        /* 優雅的捲軸 */
         ::-webkit-scrollbar {
             width: 6px;
             background: transparent;
@@ -131,12 +141,14 @@
             background: rgba(255, 255, 255, 0.15);
         }
         
+        /* 隱藏橫向捲軸 */
         .scrollbar-hide::-webkit-scrollbar {
             width: 0px;
             height: 0px;
             display: none;
         }
         
+        /* 毛玻璃效果 - 極致優化版 */
         .glass {
             background: linear-gradient(135deg, rgba(20, 20, 20, 0.7), rgba(26, 26, 26, 0.6));
             backdrop-filter: blur(28px) saturate(200%);
@@ -157,6 +169,7 @@
                 inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
         }
         
+        /* 卡片光暈效果 */
         .glass::before {
             content: '';
             position: absolute;
@@ -177,6 +190,7 @@
             opacity: 1;
         }
         
+        /* 庫存進度條 - 重新設計 */
         .stock-bar { 
             height: 6px; 
             border-radius: 999px; 
@@ -195,10 +209,21 @@
             overflow: hidden;
         }
         
-        .stock-green { background: linear-gradient(90deg, #10b981, #34d399); }
-        .stock-yellow { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-        .stock-red { background: linear-gradient(90deg, #ef4444, #f87171); }
+        /* 移除 shimmer 動畫，簡化特效 */
         
+        .stock-green { 
+            background: linear-gradient(90deg, #10b981, #34d399); 
+        }
+        
+        .stock-yellow { 
+            background: linear-gradient(90deg, #f59e0b, #fbbf24); 
+        }
+        
+        .stock-red { 
+            background: linear-gradient(90deg, #ef4444, #f87171); 
+        }
+        
+        /* 載入動畫 - 優化 */
         .loader { 
             width: 48px; 
             height: 48px; 
@@ -212,12 +237,15 @@
             to { transform: rotate(360deg); } 
         }
         
+        /* 按鈕微交互 - 實用為主，簡化特效 */
         .btn-interactive {
             transition: all 0.2s ease;
             position: relative;
             cursor: pointer;
+            /* 確保觸摸目標 */
             min-width: 44px;
             min-height: 44px;
+            /* 提升對比度 */
             border: 2px solid transparent;
         }
         
@@ -242,6 +270,7 @@
             transition: all 0.1s;
         }
         
+        /* 分類按鈕 - 實用為主，簡化特效 */
         .cat-chip {
             transition: all 0.2s ease;
             white-space: nowrap;
@@ -259,6 +288,7 @@
             transform: scale(0.98);
         }
         
+        /* 底部導航 - 簡化特效 */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -293,11 +323,23 @@
             transition: transform 0.2s ease;
         }
         
-        .nav-item.active { color: #8b5cf6; }
-        .nav-item.active::before { transform: translateX(-50%) scaleX(1); }
-        .nav-item.active .nav-icon { transform: scale(1.1); }
-        .nav-item:active { transform: scale(0.96); }
+        .nav-item.active {
+            color: #8b5cf6;
+        }
         
+        .nav-item.active::before {
+            transform: translateX(-50%) scaleX(1);
+        }
+        
+        .nav-item.active .nav-icon {
+            transform: scale(1.1);
+        }
+        
+        .nav-item:active {
+            transform: scale(0.96);
+        }
+        
+        /* Bottom Sheet - 簡化特效 */
         .bottom-sheet {
             position: fixed;
             bottom: 0;
@@ -317,7 +359,9 @@
             box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.8);
         }
         
-        .bottom-sheet.open { transform: translateY(0); }
+        .bottom-sheet.open {
+            transform: translateY(0);
+        }
         
         .bottom-sheet-overlay {
             position: fixed;
@@ -343,6 +387,134 @@
             margin: 16px auto;
         }
         
+        /* 轉移輸入框 - 手機友善 */
+        .transfer-input-container {
+            padding: 20px 0;
+        }
+        
+        .transfer-input-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #9ca3af;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .transfer-input-number {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 32px;
+            font-weight: 900;
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.3s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .transfer-input-number:focus {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: rgba(139, 92, 246, 0.6);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+        }
+        
+        .transfer-quick-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .transfer-quick-btn {
+            padding: 16px 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .transfer-quick-btn:active {
+            transform: scale(0.95);
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+        
+        .transfer-action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .transfer-action-btn {
+            flex: 1;
+            padding: 18px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 800;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .transfer-action-btn.confirm {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4);
+        }
+        
+        .transfer-action-btn.confirm:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+        }
+        
+        .transfer-action-btn.cancel {
+            background: rgba(255, 255, 255, 0.05);
+            color: #9ca3af;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .transfer-action-btn.cancel:active {
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .transfer-info {
+            text-align: center;
+            padding: 16px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+        
+        .transfer-info-text {
+            font-size: 14px;
+            color: #67e8f9;
+            font-weight: 600;
+        }
+        
+        .transfer-info-number {
+            font-size: 24px;
+            color: #ffffff;
+            font-weight: 900;
+            margin-top: 4px;
+        }
+        
+        /* Toast - 簡化特效 */
         .toast-container { 
             position: fixed; 
             bottom: 90px; 
@@ -373,25 +545,45 @@
         }
         
         @keyframes toastIn { 
-            0% { opacity: 0; transform: translateY(20px); } 
-            100% { opacity: 1; transform: translateY(0); } 
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            } 
+            100% { 
+                opacity: 1; 
+                transform: translateY(0); 
+            } 
         }
         
         @keyframes toastOut { 
-            0% { opacity: 1; transform: translateY(0); } 
-            100% { opacity: 0; transform: translateY(-10px); } 
+            0% { 
+                opacity: 1; 
+                transform: translateY(0); 
+            } 
+            100% { 
+                opacity: 0; 
+                transform: translateY(-10px); 
+            } 
         }
         
-        .search-container { position: relative; }
+        /* 搜尋欄 - 極致設計 + 可訪問性 */
+        .search-container {
+            position: relative;
+        }
         
         .search-input {
+            /* 提升對比度 */
             color: #ffffff;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            width: 100%;
         }
         
-        .search-input::placeholder { color: #9ca3af; opacity: 1; }
-        .search-input:focus::placeholder { color: #6b7280; }
+        .search-input::placeholder {
+            color: #9ca3af; /* 確保 placeholder 對比度 */
+            opacity: 1;
+        }
+        
+        .search-input:focus::placeholder {
+            color: #6b7280;
+        }
         
         .search-container::before {
             content: '';
@@ -405,7 +597,14 @@
             filter: blur(8px);
         }
         
-        .search-container:focus-within::before { opacity: 1; }
+        .search-container:focus-within::before {
+            opacity: 1;
+        }
+        
+        .search-input {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 100%;
+        }
         
         .search-input:focus {
             outline: none;
@@ -417,6 +616,7 @@
             border-color: rgba(139, 92, 246, 0.6);
         }
         
+        /* 卡片動畫 - 實用為主，簡化特效 */
         .card-item {
             transition: all 0.2s ease;
             cursor: pointer;
@@ -433,18 +633,28 @@
             transition: all 0.1s;
         }
         
+        /* 頁面切換 - 簡化動畫 */
         .page {
             display: none;
             animation: pageIn 0.3s ease;
         }
         
-        .page.active { display: block; }
-        
-        @keyframes pageIn {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
+        .page.active {
+            display: block;
         }
         
+        @keyframes pageIn {
+            0% { 
+                opacity: 0; 
+                transform: translateY(10px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+        
+        /* 數字顯示 - 極致優化 - 增大字體提升易讀性 */
         .big-number {
             font-variant-numeric: tabular-nums;
             letter-spacing: -0.02em;
@@ -455,9 +665,11 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             transition: all 0.3s;
+            /* 提升易讀性 */
             line-height: 1.1;
         }
         
+        /* Header 大數字 - 超大顯示 */
         .header-big-number {
             font-size: 4.5rem;
             font-weight: 900;
@@ -466,8 +678,17 @@
             font-variant-numeric: tabular-nums;
         }
         
-        @media (max-width: 640px) { .header-big-number { font-size: 3rem; } }
-        @media (max-width: 480px) { .header-big-number { font-size: 2.5rem; } }
+        @media (max-width: 640px) {
+            .header-big-number {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-big-number {
+                font-size: 2.5rem;
+            }
+        }
         
         .big-number.text-purple-400 {
             background: linear-gradient(135deg, #a78bfa, #8b5cf6);
@@ -501,6 +722,7 @@
             text-shadow: 0 2px 20px rgba(16, 185, 129, 0.4);
         }
         
+        /* 狀態徽章 - 改進 */
         .status-badge {
             position: relative;
             overflow: hidden;
@@ -524,6 +746,7 @@
             50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
         }
         
+        /* 統計卡片 - 簡化特效 */
         .stat-card {
             position: relative;
             transition: all 0.2s ease;
@@ -534,16 +757,26 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         }
         
-        .stat-card:active { transform: translateY(0); }
+        .stat-card:active {
+            transform: translateY(0);
+        }
         
-        .safe-top { padding-top: max(env(safe-area-inset-top), 12px); }
-        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        /* 安全區域適配 */
+        .safe-top {
+            padding-top: max(env(safe-area-inset-top), 12px);
+        }
         
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* 效能優化 */
         .gpu-accelerated {
             transform: translateZ(0);
             will-change: transform;
         }
         
+        /* 無障礙改進 - 全面優化 */
         .focus-visible:focus,
         button:focus-visible,
         input:focus-visible,
@@ -553,21 +786,49 @@
             border-radius: 6px;
         }
         
+        /* 語義化標籤樣式 */
         h1, h2, h3, h4, h5, h6 {
             font-weight: 700;
             line-height: 1.2;
         }
         
-        .text-gray-300 { color: #d4d4d8; }
-        .text-gray-400 { color: #b8b8c0; }
-        .text-gray-500 { color: #9ca3af; }
-        .text-red-400 { color: #f87171; }
-        .text-green-400 { color: #4ade80; }
+        /* 提升文字對比度 - 進一步優化易讀性 */
+        .text-gray-300 {
+            color: #d4d4d8; /* 提升對比度 */
+        }
         
-        .glass p, .glass span, .glass h3 { color: #f5f5f5; }
-        .glass .text-gray-400 { color: #c4c4cc; }
-        .glass .text-gray-500 { color: #a1a1aa; }
+        .text-gray-400 {
+            color: #b8b8c0; /* 提升對比度 */
+        }
         
+        .text-gray-500 {
+            color: #9ca3af; /* 提升對比度 */
+        }
+        
+        /* 錯誤狀態對比度優化 */
+        .text-red-400 {
+            color: #f87171; /* 確保對比度 */
+        }
+        
+        /* 成功狀態對比度優化 */
+        .text-green-400 {
+            color: #4ade80; /* 確保對比度 */
+        }
+        
+        /* 改善卡片內文字對比度 */
+        .glass p, .glass span, .glass h3 {
+            color: #f5f5f5;
+        }
+        
+        .glass .text-gray-400 {
+            color: #c4c4cc;
+        }
+        
+        .glass .text-gray-500 {
+            color: #a1a1aa;
+        }
+        
+        /* 屏幕閱讀器專用 */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -580,28 +841,44 @@
             border-width: 0;
         }
         
-        [aria-busy="true"] { cursor: wait; }
+        /* 加載狀態可訪問性 */
+        [aria-busy="true"] {
+            cursor: wait;
+        }
+        
         [aria-disabled="true"] {
             opacity: 0.5;
             cursor: not-allowed;
             pointer-events: none;
         }
         
-        .empty-state { animation: fadeIn 0.5s ease-out; }
+        /* 空狀態優化 */
+        .empty-state {
+            animation: fadeIn 0.5s ease-out;
+        }
         
-        .operator-btn { transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        /* 操作人員按鈕 */
+        .operator-btn {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
         .operator-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
         }
-        .operator-btn.active { box-shadow: 0 6px 24px rgba(139, 92, 246, 0.5); }
+        
+        .operator-btn.active {
+            box-shadow: 0 6px 24px rgba(139, 92, 246, 0.5);
+        }
         
         .operator-select-btn {
             position: relative;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
-        .operator-select-btn:hover { transform: translateY(-2px); }
+        .operator-select-btn:hover {
+            transform: translateY(-2px);
+        }
         
         .operator-select-btn::before {
             content: '';
@@ -618,8 +895,11 @@
             transition: opacity 0.3s;
         }
         
-        .operator-select-btn:hover::before { opacity: 0.5; }
+        .operator-select-btn:hover::before {
+            opacity: 0.5;
+        }
         
+        /* 漸變動畫 */
         @keyframes gradient {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -630,21 +910,23 @@
             animation: gradient 3s ease infinite;
         }
         
+        /* 數字動畫 */
         @keyframes numberPop {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
         
-        .number-update { animation: numberPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .number-update {
+            animation: numberPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
         
+        /* 可編輯數字輸入框 */
         .editable-number {
             cursor: pointer;
             user-select: none;
             transition: all 0.2s ease;
             position: relative;
-            /* ★★★ 修復：防止手機瀏覽器雙擊縮放，改善雙擊事件觸發 ★★★ */
-            touch-action: manipulation; 
         }
         
         .editable-number:hover {
@@ -673,25 +955,43 @@
             box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.25);
         }
         
-        .list-item-enter { animation: listItemEnter 0.3s ease backwards; }
-        
-        @keyframes listItemEnter {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
+        /* 列表項目進入動畫 - 簡化 */
+        .list-item-enter {
+            animation: listItemEnter 0.3s ease backwards;
         }
         
-        .site-item { transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes listItemEnter {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 優化F22廠區物料列表 */
+        .site-item {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
         .site-item:hover {
             transform: translateX(4px);
             background: rgba(255, 255, 255, 0.1) !important;
         }
-        .site-item:active { transform: translateX(2px) scale(0.98); }
         
+        .site-item:active {
+            transform: translateX(2px) scale(0.98);
+        }
+        
+        /* 優化統計卡片標籤 */
         .stat-label {
             letter-spacing: 0.05em;
             font-weight: 600;
         }
         
+        /* 優化分類統計條 */
         .category-bar-item {
             transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
@@ -713,14 +1013,19 @@
     </style>
 </head>
 <body>
+    <!-- Toast 容器 -->
     <div id="toastBox" class="toast-container" role="status" aria-live="polite" aria-atomic="true"></div>
     
-    <div id="bottomSheetOverlay" class="bottom-sheet-overlay" onclick="closeBottomSheet()" role="button" aria-label="關閉盤點視窗" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){closeBottomSheet();event.preventDefault();}"></div>
+    <!-- Bottom Sheet Overlay -->
+    <div id="bottomSheetOverlay" class="bottom-sheet-overlay" onclick="closeBottomSheet();closeTransferInput();" role="button" aria-label="關閉視窗" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){closeBottomSheet();closeTransferInput();event.preventDefault();}"></div>
     
+    <!-- 主容器 -->
     <div class="relative min-h-screen pb-24 safe-bottom">
         
+        <!-- Header -->
         <header id="header" class="glass-strong sticky top-0 z-50 safe-top" role="banner">
             <div class="px-5 py-6">
+                <!-- 主要統計數字 - 最上方 -->
                 <div class="grid grid-cols-3 gap-3 mb-5">
                     <div class="text-center">
                         <p class="text-xs text-gray-400 font-bold mb-2.5 tracking-wide" aria-label="總品項標籤">總品項</p>
@@ -736,12 +1041,13 @@
                     </div>
                 </div>
                 
+                <!-- 標題和狀態 -->
                 <div class="flex justify-between items-center mb-3">
                     <div>
                         <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-purple-500 to-purple-600 animate-gradient">
                             物料戰情室
                         </h1>
-                        <p class="text-xs text-gray-500 mt-1 font-semibold tracking-wide" aria-label="版本號">v19.2 Pro Edition</p>
+                        <p class="text-xs text-gray-500 mt-1 font-semibold tracking-wide" aria-label="版本號">v19.1 Pro Edition</p>
                     </div>
                     <div id="statusBadge" class="status-badge text-sm px-4 py-2.5 rounded-full bg-white/5 text-gray-400 border border-white/10 font-semibold backdrop-blur-sm" role="status" aria-live="polite" aria-atomic="true" title="網絡連接狀態">
                         連線中...
@@ -754,8 +1060,10 @@
             </div>
         </header>
         
+        <!-- Dashboard 頁面 -->
         <div id="page-dashboard" class="page active">
             <div class="px-5 py-6 space-y-6">
+                <!-- 分類統計條 -->
                 <div class="glass rounded-3xl p-6">
                     <div class="flex items-center gap-2 mb-4">
                         <span class="text-2xl">📈</span>
@@ -765,6 +1073,7 @@
                     <div id="categoryLegend" class="flex flex-wrap gap-4 text-sm text-gray-300"></div>
                 </div>
                 
+                <!-- F22廠區物料清單 -->
                 <div class="glass rounded-3xl p-6">
                     <div class="flex items-center justify-between mb-5">
                         <div class="flex items-center gap-2.5">
@@ -774,7 +1083,8 @@
                         <span id="siteItemCount" class="text-sm px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/30 to-cyan-400/20 text-cyan-300 font-bold border border-cyan-400/40 shadow-lg shadow-cyan-500/20">-</span>
                     </div>
                     <div id="siteItemsList" class="space-y-2.5 max-h-96 overflow-y-auto">
-                        </div>
+                        <!-- 物料項目將在這裡動態生成 -->
+                    </div>
                     <div id="siteItemsEmpty" class="hidden text-center py-12">
                         <div class="text-5xl mb-3 opacity-40">📭</div>
                         <p class="text-gray-500 text-sm font-medium">F22廠區暫無物料</p>
@@ -783,8 +1093,10 @@
             </div>
         </div>
         
+        <!-- List 頁面 -->
         <div id="page-list" class="page">
             <div class="px-5 py-5 space-y-5">
+                <!-- 搜尋欄 -->
                 <div class="search-container glass rounded-3xl p-6" role="search">
                     <label for="searchInput" class="sr-only">搜尋物料</label>
                     <div class="flex items-center gap-4">
@@ -808,6 +1120,7 @@
                     <div id="searchResultsCount" class="text-sm text-gray-400 mt-3 hidden"></div>
                 </div>
                 
+                <!-- 分類標籤 -->
                 <div class="flex gap-3 overflow-x-auto pb-3 scrollbar-hide" style="-webkit-overflow-scrolling: touch;" id="categoryChips" role="tablist" aria-label="物料分類篩選">
                     <button class="cat-chip active px-7 py-3.5 rounded-full text-base font-bold bg-white/5 text-gray-200 border border-white/10" data-cat="all" role="tab" aria-selected="true" aria-controls="inventoryList" tabindex="0">
                         <span>全部</span>
@@ -829,6 +1142,7 @@
                     </button>
                 </div>
                 
+                <!-- 批量操作欄 -->
                 <div id="batchActions" class="hidden glass rounded-2xl p-5 mb-4">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
@@ -842,8 +1156,10 @@
                     </div>
                 </div>
                 
+                <!-- 庫存列表 -->
                 <div id="inventoryList" class="space-y-3" role="list" aria-label="物料列表"></div>
                 
+                <!-- 空狀態 -->
                 <div id="emptyState" class="hidden empty-state text-center py-24" role="status" aria-live="polite">
                     <div class="text-8xl mb-6 opacity-40 filter drop-shadow-2xl" aria-hidden="true">📭</div>
                     <p class="text-gray-400 text-lg font-bold mb-2">找不到符合的品項</p>
@@ -852,6 +1168,7 @@
             </div>
         </div>
         
+        <!-- Settings 頁面 -->
         <div id="page-settings" class="page">
             <div class="px-5 py-5 space-y-4">
                 <div class="glass-strong rounded-3xl p-6">
@@ -889,6 +1206,7 @@
                     <div id="operatorSelector" class="flex flex-col gap-3"></div>
                 </div>
                 
+                <!-- PWA 安裝選項（可選，不強制） -->
                 <div id="pwaInstallSection" class="glass rounded-3xl p-6 hidden">
                     <h3 class="text-lg font-extrabold text-white mb-5 flex items-center gap-2">
                         <span>📱</span>
@@ -912,7 +1230,7 @@
                     <div class="space-y-3 text-sm">
                         <div class="flex justify-between items-center py-2 border-b border-white/5">
                             <span class="text-gray-400 font-semibold">版本</span>
-                            <span class="text-white font-extrabold">v19.2 Pro</span>
+                            <span class="text-white font-extrabold">v19.1 Pro</span>
                         </div>
                         <div class="flex justify-between items-center py-2">
                             <span class="text-gray-400 font-semibold">已載入品項</span>
@@ -923,6 +1241,7 @@
             </div>
         </div>
         
+        <!-- Loading 狀態 -->
         <div id="loadingState" class="fixed inset-0 z-50 flex flex-col items-center justify-center glass-strong" role="status" aria-live="polite" aria-busy="true" aria-label="載入資料中">
             <div class="relative" aria-hidden="true">
                 <div class="loader"></div>
@@ -932,6 +1251,7 @@
             <p id="loadingTimer" class="text-gray-600 text-sm mt-3 font-semibold" aria-live="polite"></p>
         </div>
         
+        <!-- Error 狀態 -->
         <div id="errorState" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6" role="alert" aria-live="assertive">
             <div class="glass-strong rounded-3xl p-10 text-center max-w-sm w-full relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-red-500/10 rounded-full blur-3xl" aria-hidden="true"></div>
@@ -947,6 +1267,7 @@
         </div>
     </div>
     
+    <!-- Bottom Sheet (盤點視窗) -->
     <div id="bottomSheet" class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="bottomSheetTitle" aria-hidden="true">
         <div class="bottom-sheet-handle" aria-hidden="true"></div>
         <div class="px-6 pb-6 overflow-y-auto" style="max-height: calc(85vh - 60px);">
@@ -954,6 +1275,15 @@
         </div>
     </div>
     
+    <!-- 轉移數量輸入框 (手機友善) -->
+    <div id="transferInputSheet" class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="transferInputTitle" aria-hidden="true">
+        <div class="bottom-sheet-handle" aria-hidden="true"></div>
+        <div class="px-6 pb-6">
+            <div id="transferInputContent"></div>
+        </div>
+    </div>
+    
+    <!-- 底部導航 -->
     <nav class="bottom-nav" role="navigation" aria-label="主要導航">
         <div class="flex justify-around items-center py-3 px-3">
             <button onclick="switchPage('dashboard')" class="nav-item active flex flex-col items-center gap-1.5 px-5 py-2.5 rounded-2xl" data-page="dashboard" aria-label="總覽頁面" aria-current="page">
@@ -1044,6 +1374,11 @@
             return (v === undefined || v === null || v === '') ? (d || '') : String(v);
         }
 
+        function formatNumber(num) {
+            // 如果是小數，保留一位小數，否則顯示整數
+            return num % 1 === 0 ? num : num.toFixed(1);
+        }
+
         function escapeHtml(str) {
             var div = document.createElement('div');
             div.textContent = str;
@@ -1080,7 +1415,9 @@
             var elementId = (isBottomSheet ? 'bs-' : '') + (type === 'w' ? 'w-' : 's-') + id;
             var el = document.getElementById(elementId);
             if (el && el.tagName !== 'INPUT') {
-                el.textContent = value;
+                // 如果是小數，保留一位小數，否則顯示整數
+                var displayValue = value % 1 === 0 ? value : value.toFixed(1);
+                el.textContent = displayValue;
                 el.classList.add('number-update');
                 setTimeout(function() { 
                     if (el) el.classList.remove('number-update'); 
@@ -1353,10 +1690,10 @@
                     var config = categoryConfig[cat];
                     barHtml += '<div class="category-bar-item" style="width:' + pct + '%; background: linear-gradient(90deg, ' + config.color + ', ' + config.color + 'dd);"></div>';
                     legendHtml += '<span class="flex items-center gap-2 px-2 py-1 rounded-lg bg-white/5 border border-white/5">' + 
-                                     '<span style="color:' + config.color + '; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">' + config.icon + '</span>' + 
-                                     '<span class="font-semibold">' + config.label + '</span>' +
-                                     '<span class="text-gray-500 font-bold">' + pct + '%</span>' + 
-                                     '</span>';
+                                 '<span style="color:' + config.color + '; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">' + config.icon + '</span>' + 
+                                 '<span class="font-semibold">' + config.label + '</span>' +
+                                 '<span class="text-gray-500 font-bold">' + pct + '%</span>' + 
+                                 '</span>';
                 }
             }
             
@@ -1472,7 +1809,6 @@
             var isSelected = state.selectedItems.indexOf(id) >= 0;
             var selectClass = isSelected ? 'ring-2 ring-purple-500 ring-offset-2 ring-offset-black' : '';
             
-            // ★★★ 關鍵修改：在數字上加入 onclick="event.stopPropagation()" 防止點擊衝突 ★★★
             return '<div class="card-item glass rounded-3xl p-6 gpu-accelerated list-item-enter ' + selectClass + '" ' +
                 'onclick="handleItemClick(event, \'' + escapeHtml(id) + '\')" ' +
                 'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){handleItemClick(event, \'' + escapeHtml(id) + '\');event.preventDefault();}" ' +
@@ -1497,11 +1833,11 @@
                     '</div>' +
                     '<div class="text-right flex-shrink-0">' +
                         '<div class="mb-4">' +
-                            '<p class="big-number editable-number text-5xl font-extrabold text-purple-400 leading-none" id="w-' + escapeHtml(id) + '" aria-label="公司倉庫存，雙擊可編輯" onclick="event.stopPropagation()" ondblclick="editNumber(\'' + escapeHtml(id) + '\', \'w\')" title="雙擊編輯">' + wQty + '</p>' +
+                            '<p class="big-number editable-number text-5xl font-extrabold text-purple-400 leading-none" id="w-' + escapeHtml(id) + '" aria-label="公司倉庫存，雙擊可編輯" ondblclick="editNumber(\'' + escapeHtml(id) + '\', \'w\')" title="雙擊編輯">' + wQty + '</p>' +
                             '<p class="text-xs text-gray-400 font-bold mt-2 tracking-wide">公司倉</p>' +
                         '</div>' +
                         '<div>' +
-                            '<p class="big-number editable-number text-5xl font-extrabold text-cyan-400 leading-none" id="s-' + escapeHtml(id) + '" aria-label="F22廠區庫存，雙擊可編輯" onclick="event.stopPropagation()" ondblclick="editNumber(\'' + escapeHtml(id) + '\', \'s\')" title="雙擊編輯">' + sQty + '</p>' +
+                            '<p class="big-number editable-number text-5xl font-extrabold text-cyan-400 leading-none" id="s-' + escapeHtml(id) + '" aria-label="F22廠區庫存，雙擊可編輯" ondblclick="editNumber(\'' + escapeHtml(id) + '\', \'s\')" title="雙擊編輯">' + sQty + '</p>' +
                             '<p class="text-xs text-gray-400 font-bold mt-2 tracking-wide">F22廠區</p>' +
                         '</div>' +
                     '</div>' +
@@ -1645,6 +1981,14 @@
                             '<button onclick="adjustQty(\'w\', 1)" class="btn-interactive w-20 h-20 rounded-3xl bg-green-600/20 text-green-400 flex items-center justify-center text-4xl font-extrabold border-2 border-green-600/40 shadow-lg shadow-green-600/20" aria-label="增加公司倉庫存">+</button>' +
                         '</div>' +
                     '</div>' +
+                    '<div class="glass rounded-3xl p-5 mb-6">' +
+                        '<button onclick="event.stopPropagation();window.transferToSite(\'' + escapeHtml(String(id)) + '\');" class="btn-interactive w-full py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 active:from-cyan-800 active:to-cyan-700 text-white font-extrabold text-xl border-2 border-cyan-400/50 shadow-lg shadow-cyan-500/30 transition-all" aria-label="轉移物料至F22" type="button">' +
+                            '<span class="flex items-center justify-center gap-2">' +
+                                '<span class="text-2xl">📦</span>' +
+                                '<span>轉移物料至F22</span>' +
+                            '</span>' +
+                        '</button>' +
+                    '</div>' +
                     '<div class="glass-strong rounded-3xl p-6 relative overflow-hidden">' +
                         '<div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl" aria-hidden="true"></div>' +
                         '<p class="text-sm text-gray-300 font-bold uppercase tracking-wider mb-5 relative z-10">F22廠區庫存</p>' +
@@ -1725,6 +2069,8 @@
             el.bottomSheetOverlay.classList.remove('open');
             document.body.style.overflow = '';
             state.currentItem = null;
+            // 同時關閉轉移輸入界面
+            closeTransferInput();
         }
 
         // ===== 統一的數量更新函數 =====
@@ -1790,8 +2136,8 @@
                         }
                         
                         // 恢復 UI
-                        updateNumberDisplay(id, type, oldQty, false);
-                        updateNumberDisplay(id, type, oldQty, true);
+                        if (listEl) listEl.textContent = oldQty;
+                        if (sheetEl) sheetEl.textContent = oldQty;
                         
                         // 清除待同步記錄
                         delete state.pendingUpdates[key];
@@ -1843,6 +2189,181 @@
             updateQty(id, type, newQty, oldQty, state.currentItem);
         }
         
+        // ===== 轉移物料至F22 =====
+        function transferToSite(id) {
+            console.log('transferToSite called with id:', id);
+            
+            // 確保id是字符串
+            id = String(id);
+            
+            var item = findItemById(id);
+            if (!item) {
+                console.error('Item not found for id:', id);
+                toast('找不到該物料', 'error');
+                return;
+            }
+            
+            var warehouseQty = safeNum(item.warehouseQty);
+            
+            if (warehouseQty <= 0) {
+                toast('公司倉庫存為 0，無法轉移', 'warning');
+                return;
+            }
+            
+            // 顯示手機友善的輸入界面
+            showTransferInput(id, item, warehouseQty);
+        }
+        
+        function showTransferInput(id, item, maxQty) {
+            // 保存當前轉移的項目ID
+            state.transferItemId = id;
+            
+            // 生成快速選擇按鈕
+            var quickBtns = '';
+            var quickValues = [0.5, 1, 2, 5, 10, Math.max(1, Math.floor(maxQty / 2)), maxQty];
+            // 過濾超過最大值的選項
+            quickValues = quickValues.filter(function(v) { return v <= maxQty && v > 0; });
+            // 去重並排序
+            quickValues = quickValues.filter(function(v, i, arr) { return arr.indexOf(v) === i; }).sort(function(a, b) { return a - b; });
+            // 只取前6個
+            quickValues = quickValues.slice(0, 6);
+            
+            for (var i = 0; i < quickValues.length; i++) {
+                var val = quickValues[i];
+                var displayVal = val % 1 === 0 ? val : val.toFixed(1);
+                quickBtns += '<button class="transfer-quick-btn" onclick="setTransferQty(' + val + ')">' + displayVal + '</button>';
+            }
+            
+            el.transferInputContent.innerHTML = 
+                '<div class="transfer-input-container">' +
+                    '<h2 id="transferInputTitle" class="text-3xl font-extrabold text-white mb-6 text-center">' + escapeHtml(item.name) + '</h2>' +
+                    '<div class="transfer-info">' +
+                        '<div class="transfer-info-text">當前公司倉庫存</div>' +
+                        '<div class="transfer-info-number">' + formatNumber(maxQty) + '</div>' +
+                    '</div>' +
+                    '<label class="transfer-input-label">輸入轉移數量</label>' +
+                    '<input type="number" id="transferQtyInput" class="transfer-input-number" min="0.1" max="' + maxQty + '" step="0.1" value="" placeholder="0.0" inputmode="decimal">' +
+                    '<div class="transfer-quick-buttons">' + quickBtns + '</div>' +
+                    '<div class="transfer-action-buttons">' +
+                        '<button class="transfer-action-btn cancel" onclick="closeTransferInput()">取消</button>' +
+                        '<button class="transfer-action-btn confirm" onclick="confirmTransfer()">確認轉移</button>' +
+                    '</div>' +
+                '</div>';
+            
+            el.transferInputSheet.classList.add('open');
+            el.transferInputSheet.setAttribute('aria-hidden', 'false');
+            el.bottomSheetOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            
+            // 聚焦到輸入框
+            setTimeout(function() {
+                var input = document.getElementById('transferQtyInput');
+                if (input) {
+                    input.focus();
+                    // 移動設備自動彈出數字鍵盤
+                    input.click();
+                }
+            }, 300);
+        }
+        
+        function setTransferQty(qty) {
+            var input = document.getElementById('transferQtyInput');
+            if (input) {
+                input.value = qty % 1 === 0 ? qty : qty.toFixed(1);
+                // 觸發輸入事件以驗證
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                // 震動反饋（如果支持）
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            }
+        }
+        
+        function closeTransferInput() {
+            el.transferInputSheet.classList.remove('open');
+            el.transferInputSheet.setAttribute('aria-hidden', 'true');
+            el.bottomSheetOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+            state.transferItemId = null;
+        }
+        
+        function confirmTransfer() {
+            var id = state.transferItemId;
+            if (!id) {
+                toast('找不到物料資訊', 'error');
+                closeTransferInput();
+                return;
+            }
+            
+            var item = findItemById(id);
+            if (!item) {
+                toast('找不到該物料', 'error');
+                closeTransferInput();
+                return;
+            }
+            
+            var maxQty = safeNum(item.warehouseQty);
+            var input = document.getElementById('transferQtyInput');
+            if (!input) {
+                closeTransferInput();
+                return;
+            }
+            
+            var transferQty = parseFloat(input.value);
+            
+            // 驗證輸入
+            if (isNaN(transferQty) || transferQty <= 0) {
+                toast('請輸入有效的數量', 'error');
+                input.focus();
+                return;
+            }
+            
+            // 保留小數點後一位
+            transferQty = Math.round(transferQty * 10) / 10;
+            
+            if (transferQty > maxQty) {
+                toast('轉移數量不能超過公司倉庫存（' + formatNumber(maxQty) + '）', 'error');
+                input.focus();
+                return;
+            }
+            
+            // 關閉輸入界面
+            closeTransferInput();
+            
+            // 執行轉移
+            var warehouseQty = maxQty;
+            
+            // 調用API
+            postAPI('move_to_site', {
+                id: id,
+                qty: transferQty,
+                person: state.currentOperator
+            })
+                .then(function(data) {
+                    // 更新本地狀態
+                    item.warehouseQty = warehouseQty - transferQty;
+                    item.siteQty = safeNum(item.siteQty) + transferQty;
+                    
+                    // 更新顯示
+                    updateNumberDisplay(id, 'w', item.warehouseQty, true);
+                    updateNumberDisplay(id, 's', item.siteQty, true);
+                    updateNumberDisplay(id, 'w', item.warehouseQty, false);
+                    updateNumberDisplay(id, 's', item.siteQty, false);
+                    
+                    updateDashboard();
+                    toast('✅ 已轉移 ' + formatNumber(transferQty) + ' 件至F22廠區', 'success');
+                    
+                    // 如果Bottom Sheet打開，更新當前項目
+                    if (state.currentItem && state.currentItem.id == id) {
+                        state.currentItem.warehouseQty = item.warehouseQty;
+                        state.currentItem.siteQty = item.siteQty;
+                    }
+                })
+                .catch(function(e) {
+                    toast('❌ 轉移失敗：' + e.message, 'error');
+                });
+        }
+        
         // ===== 直接編輯數字 =====
         function editNumber(id, type, isBottomSheet) {
             // 防止重複編輯
@@ -1874,8 +2395,7 @@
                 'aria-atomic': el.getAttribute('aria-atomic'),
                 'aria-label': el.getAttribute('aria-label'),
                 'title': el.getAttribute('title'),
-                'ondblclick': el.getAttribute('ondblclick'),
-                'onclick': el.getAttribute('onclick') // 保存 onclick 屬性
+                'ondblclick': el.getAttribute('ondblclick')
             };
             
             // 創建輸入框
@@ -1883,7 +2403,7 @@
             input.type = 'number';
             input.min = '0';
             input.max = '99999';
-            input.step = '1';
+            input.step = '0.1';
             input.value = currentQty;
             input.className = 'editable-number-input big-number font-extrabold text-center';
             input.style.cssText = 'width: 100%; max-width: 300px; margin: 0 auto; display: block;';
@@ -1901,8 +2421,6 @@
                 input.style.color = '#67e8f9';
             }
             input.setAttribute('aria-label', (isW ? '公司倉' : 'F22廠區') + '庫存輸入');
-            // 防止輸入框點擊事件冒泡
-            input.onclick = function(e) { e.stopPropagation(); };
             
             // 替換元素
             var parent = el.parentNode;
@@ -1914,7 +2432,7 @@
             function finishEdit() {
                 if (state.editingNumber !== editKey) return; // 防止重複執行
                 
-                var inputValue = parseInt(input.value, 10);
+                var inputValue = parseFloat(input.value);
                 
                 // 驗證輸入
                 if (isNaN(inputValue) || inputValue < 0) {
@@ -1924,6 +2442,8 @@
                     toast('數量不能超過 99999', 'warning');
                     inputValue = 99999;
                 }
+                // 保留小數點後一位
+                inputValue = Math.round(inputValue * 10) / 10;
                 
                 // 如果值改變了，需要確認
                 if (inputValue !== oldQty) {
@@ -1958,7 +2478,9 @@
                 var newEl = document.createElement('p');
                 newEl.id = elementId;
                 newEl.className = originalClass;
-                newEl.textContent = (isW ? item.warehouseQty : item.siteQty);
+                var displayValue = (isW ? item.warehouseQty : item.siteQty);
+                // 如果是小數，保留一位小數，否則顯示整數
+                newEl.textContent = displayValue % 1 === 0 ? displayValue : displayValue.toFixed(1);
                 
                 // 恢復屬性
                 for (var key in originalAttrs) {
@@ -1969,10 +2491,7 @@
                 
                 if (originalStyle) newEl.setAttribute('style', originalStyle);
                 
-                // 檢查是否仍在父元素中（避免重複操作報錯）
-                if (parent.contains(input)) {
-                    parent.replaceChild(newEl, input);
-                }
+                parent.replaceChild(newEl, input);
             }
             
             // 綁定事件
@@ -2343,11 +2862,22 @@
             
             // 鍵盤快捷鍵
             document.addEventListener('keydown', function(e) {
-                // ESC 關閉 Bottom Sheet
-                if (e.key === 'Escape' && el.bottomSheet.classList.contains('open')) {
-                    closeBottomSheet();
+                // ESC 關閉 Bottom Sheet 或轉移輸入界面
+                if (e.key === 'Escape') {
+                    if (el.transferInputSheet.classList.contains('open')) {
+                        closeTransferInput();
+                    } else if (el.bottomSheet.classList.contains('open')) {
+                        closeBottomSheet();
+                    }
                 }
-                // Enter/Space 觸發按鈕（已在 HTML 中處理）
+                // Enter 在轉移輸入界面確認
+                if (e.key === 'Enter' && el.transferInputSheet.classList.contains('open')) {
+                    var input = document.getElementById('transferQtyInput');
+                    if (input && document.activeElement === input) {
+                        e.preventDefault();
+                        confirmTransfer();
+                    }
+                }
             });
         }
 
@@ -2356,6 +2886,10 @@
         window.openBottomSheet = openBottomSheet;
         window.closeBottomSheet = closeBottomSheet;
         window.adjustQty = adjustQty;
+        window.transferToSite = transferToSite;
+        window.setTransferQty = setTransferQty;
+        window.closeTransferInput = closeTransferInput;
+        window.confirmTransfer = confirmTransfer;
         window.setOperator = setOperator;
         window.setOperatorGlobal = setOperatorGlobal;
         window.editNumber = editNumber;
@@ -2581,18 +3115,18 @@
                 var update = state.pendingUpdates[key];
                 var action = update.type === 'w' ? 'warehouse_audit' : 'audit';
                 
-                postAPI(action, { 
-                    id: update.id, 
-                    qty: update.newQty, 
-                    person: update.operator 
+                postAPI(action, {
+                    id: update.id,
+                    qty: update.newQty,
+                    person: update.operator
                 })
-                    .then(function() { 
+                    .then(function() {
                         delete state.pendingUpdates[key];
                         if (Object.keys(state.pendingUpdates).length === 0) {
                             toast('✅ 所有操作已同步', 'success');
                         }
                     })
-                    .catch(function(e) { 
+                    .catch(function(e) {
                         console.error('重試失敗:', e);
                     });
             });
@@ -2618,3 +3152,4 @@
 
 </body>
 </html>
+
